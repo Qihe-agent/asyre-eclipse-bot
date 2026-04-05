@@ -1,0 +1,281 @@
+{
+  "meta": {
+    "id": "content-creator",
+    "name": "内容创作者",
+    "name_en": "Content Creator",
+    "description": "适合自媒体、KOL、写作者。包含深度创作、社媒排版、AI 配图、认知归档 4 个面板。",
+    "version": "1.0.0",
+    "panelCount": 4
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "成员",
+      "color": "#9B59B6",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "READ_MESSAGE_HISTORY"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "deep-writing",
+      "panelKey": "content_share",
+      "private": true
+    },
+    {
+      "name": "social-layout",
+      "panelKey": "social_layout",
+      "private": true
+    },
+    {
+      "name": "illustration",
+      "panelKey": "illustration",
+      "private": true
+    },
+    {
+      "name": "knowledge-log",
+      "panelKey": "knowledge_log",
+      "private": true
+    }
+  ],
+  "panels": {
+    "content_share": {
+      "title": "✍️ Asyre 深度创作系统",
+      "description": "一句话触发完整创作流水线：主题→意图分析→参数推导→自由创作→七层质量评估→雕刻修正→AI配图→论坛发布\n\n**✍️ 开创作** → 选择创作类型，创建创作子区\n**📦 归档** → 小A 执行七层评估 + 配图 + 发布\n**📜 往期** → 查看历史创作记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Asyre Share",
+      "skillName": "asyre-share",
+      "buttonLabels": {
+        "open": "✍️ 开创作",
+        "archive": "📦 归档发布",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行 asyre-share skill 完整流程。读取本 thread 的全部内容，按以下步骤处理：\n1. Phase 0: 确定创作者 ID，加载创作者画像（Creators/{creator_id}.json）+ 对标合集（如有）\n2. Phase 1: 从 thread 中提取主题，执行意图解析（读 intent-factors.md）\n3. Phase 2: 参数推导（读 derivation_process.md + derivation_rules.json）\n4. Phase 3: 自由创作（读 expression_rules + human-expression.md），含对标技法叠加\n5. Phase 3.5: 参数合规检查（逐条核对 checklist）\n6. Phase 4: 七层质量评估（读 quality_assessment.json + quality_weights.json），Q = T_gate × Σ(wi × Fi)\n7. Phase 5: 雕刻修正（减法优先），综合得分 < 0.75 返回 Phase 3 重写\n8. Phase 6: Gemini AI 配图（暗黑概念艺术风格）+ Discord 论坛发布（双语、3图首条、Embed 格式）\n\n每个 Phase 必须 READ 对应文件，不可凭上下文记忆执行。完成后在 thread 回报结果。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/share/ 目录下最近 10 个 asyre-share 创作产出，显示文章名、综合得分、发布日期。同时列出 __WORKSPACE__/creations/ 下相关的深度创作记录。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "social_commentary",
+          "emoji": "🌍",
+          "label": "社会评论",
+          "description": "对社会现象发表态度 — 价值引导+说服+共鸣"
+        },
+        {
+          "value": "deep_explainer",
+          "emoji": "🔬",
+          "label": "深度科普",
+          "description": "解释复杂概念 — 概念澄清+信息揭示+颠覆"
+        },
+        {
+          "value": "opinion_piece",
+          "emoji": "⚔️",
+          "label": "观点输出",
+          "description": "表达鲜明立场 — 说服+价值引导+颠覆"
+        },
+        {
+          "value": "tutorial",
+          "emoji": "📚",
+          "label": "教程干货",
+          "description": "系统教授技能 — 知识传递+行动号召"
+        },
+        {
+          "value": "emotional",
+          "emoji": "💫",
+          "label": "情感陪伴",
+          "description": "提供情感支持 — 共鸣+认知验证+身份认同"
+        },
+        {
+          "value": "expose",
+          "emoji": "🔍",
+          "label": "揭秘爆料",
+          "description": "揭示隐藏信息 — 信息揭示+颠覆+宣泄"
+        },
+        {
+          "value": "free_topic",
+          "emoji": "✏️",
+          "label": "自由主题",
+          "description": "不预设意图组合，由主题自动推导"
+        }
+      ]
+    },
+    "social_layout": {
+      "title": "🎨 小红书排版系统",
+      "description": "Markdown 文章 + AI 概念图 → 精美分页卡片（1080×1440）\n\n**📝 开排版** → 选择类型，创建排版子区\n**📦 归档** → 小A 渲染并交付 PNG\n**📜 往期** → 查看历史排版记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Asyre XHS",
+      "skillName": "asyre-xhs",
+      "buttonLabels": {
+        "open": "📝 开排版",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行 asyre-xhs 排版。读取本 thread 的全部内容，按以下流程处理：\n1. 提取 Markdown 正文（识别文章内容）\n2. 如 thread 中有图片链接/附件，下载作为插图\n3. 如无插图且文章适合配图，用 image-gen 生成 4-6 张 AI 概念图\n4. 在 Markdown 中插入图片位置\n5. 运行 render_pages.py 逐页渲染为 1080×1440 PNG\n6. 将各页 PNG 逐张发到 thread\n7. 如需要，额外用 render_long.py 生成 HTML 长文预览\n\n交付标准：每页零截断、PNG 逐张交付、首页署名、尾页渐变收尾。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/creations/ 目录下最近 10 个 asyre-xhs 排版产出，显示文章名、页数、日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "article_layout",
+          "emoji": "📄",
+          "label": "文章排版",
+          "description": "Markdown 文章 → 小红书分页卡片"
+        },
+        {
+          "value": "single_page",
+          "emoji": "📋",
+          "label": "单页排版",
+          "description": "全文一张图（自适应高度）"
+        },
+        {
+          "value": "illustrated",
+          "emoji": "🖼️",
+          "label": "图文创作",
+          "description": "文章 + AI 概念图 → 图文并茂卡片"
+        },
+        {
+          "value": "long_preview",
+          "emoji": "📜",
+          "label": "长文预览",
+          "description": "HTML 长文预览（文档查看器）"
+        },
+        {
+          "value": "client_brand",
+          "emoji": "🏷️",
+          "label": "客户品牌",
+          "description": "使用客户品牌模板渲染"
+        }
+      ]
+    },
+    "illustration": {
+      "title": "🖼️ 文章配图工坊",
+      "description": "Type × Style 二维组合，为文章智能生成插图\n\n**🎨 开始配图** → 选择插图类型，创建配图子区\n**📦 归档** → 小A 整理产出 + 存档\n**📜 往期** → 查看历史配图记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Article Illustrator",
+      "skillName": "article-illustrator",
+      "buttonLabels": {
+        "open": "🎨 开始配图",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请归档这个配图项目。读取本 thread 全部内容，执行以下操作：\n1. 读取 article-illustrator 的 SKILL.md 了解完整流程\n2. 从 thread 中提取文章内容和配图需求\n3. 按 article-illustrator 六步流程执行：Pre-check → Analyze → Confirm Settings → Generate Outline → Generate Images → Finalize\n4. 将产出（outline.md + 插图 PNG）存入 __WORKSPACE__/illustrations/{topic-slug}/\n5. 在 thread 回报生成结果和文件路径\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/illustrations/ 目录下最近 10 个配图项目，显示主题、插图数量、类型×风格组合、日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "infographic",
+          "emoji": "📊",
+          "label": "信息图",
+          "description": "数据可视化、指标展示、技术图解"
+        },
+        {
+          "value": "scene",
+          "emoji": "🌄",
+          "label": "场景图",
+          "description": "叙事场景、情感氛围、故事插画"
+        },
+        {
+          "value": "flowchart",
+          "emoji": "🔄",
+          "label": "流程图",
+          "description": "流程步骤、工作流、决策树"
+        },
+        {
+          "value": "comparison",
+          "emoji": "⚖️",
+          "label": "对比图",
+          "description": "并排比较、优劣分析、方案对照"
+        },
+        {
+          "value": "framework",
+          "emoji": "🏗️",
+          "label": "框架图",
+          "description": "模型架构、系统结构、概念框架"
+        },
+        {
+          "value": "timeline",
+          "emoji": "📅",
+          "label": "时间线",
+          "description": "历史演变、发展脉络、里程碑"
+        },
+        {
+          "value": "mixed",
+          "emoji": "🎯",
+          "label": "智能混合",
+          "description": "根据文章内容自动选择最佳类型组合"
+        }
+      ]
+    },
+    "knowledge_log": {
+      "title": "🧠 认知记录系统",
+      "description": "记录对话、探讨内容、提炼金句\n\n**📝 开记录** → 选择类型，创建记录子区\n**📦 归档** → 小A 五层处理（整理→金句→建档→点评→存档）\n**📜 往期** → 查看历史认知记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 认知归档",
+      "skillName": "cognitive-archive",
+      "archivePrompt": "请归档这个认知记录。读取本 thread 的全部内容，执行 cognitive-archive 五层处理：\n1. 原始保存（整理结构、修正表达）\n2. 金句提炼（全量提取入金句库）\n3. 人物建档（更新涉及人物的档案）\n4. 对话点评（100-300字评估）\n5. 长文生成（如果是深度探讨，生成 5000+ 字长文）\n\n归档完成后锁定并归档此 thread。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/archive/conversations/ 下最近 10 个对话记录的摘要列表，以及 __WORKSPACE__/archive/articles/ 下最近 5 篇长文。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "client_chat",
+          "emoji": "💬",
+          "label": "客户对话",
+          "description": "与客户/潜在客户的沟通记录"
+        },
+        {
+          "value": "content_discuss",
+          "emoji": "🧠",
+          "label": "内容探讨",
+          "description": "认知推演、共创讨论、深度分析"
+        },
+        {
+          "value": "cognitive_upgrade",
+          "emoji": "⬆️",
+          "label": "认知升级",
+          "description": "新认知、新框架、新洞察"
+        },
+        {
+          "value": "free_note",
+          "emoji": "📝",
+          "label": "自由记录",
+          "description": "不归类的零散想法和灵感"
+        }
+      ],
+      "buttonLabels": {
+        "open": "🚀 开始",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      }
+    }
+  }
+}

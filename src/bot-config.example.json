@@ -1,0 +1,46 @@
+{
+  "bot": {
+    "id": "YOUR_BOT_CLIENT_ID",
+    "ownerId": "YOUR_DISCORD_USER_ID",
+    "developers": ["YOUR_DISCORD_USER_ID"]
+  },
+  "defaults": {
+    "color": 15105570,
+    "brand": "Eclipse Bot",
+    "footer": "Eclipse Bot"
+  },
+  "guilds": {
+    "PASTE_YOUR_GUILD_ID_HERE": {
+      "brand": "My Community",
+      "footer": "My Community",
+      "color": 10181046,
+      "welcome": {
+        "enabled": true,
+        "channelId": "",
+        "autoRoleId": "",
+        "title": "Welcome!",
+        "description": "Welcome to **{displayName}**! You are member #{memberCount}.",
+        "thumbnailFromUser": true,
+        "color": 5793266
+      },
+      "levelup": {
+        "enabled": true,
+        "banner": "levelup_banner.png",
+        "color": 16766720,
+        "noLeveling": false,
+        "noXpChannels": []
+      },
+      "team": {
+        "mention": [],
+        "silent": [],
+        "familyRoleId": ""
+      },
+      "ticket": {
+        "enabled": false,
+        "title": "Support Center",
+        "categories": [],
+        "notifyUsers": []
+      }
+    }
+  }
+}

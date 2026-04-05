@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Issue {
+  id            Int    @id @default(autoincrement())
+  guildId       String
+  error         String
+  uuid          String
+  authorId      String
+  interactionId String
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  guildId         String
+  userId          String
+  messageCount    Int
+  xp              Int
+  totalXp         Int
+  levelXp         Int
+  level           Int
+  rank            Int
+  noXp            Boolean? @default(false)
+  lastRoleIdGiven String?
+}
+
+model Guild {
+  id                       Int      @id @default(autoincrement())
+  guildId                  String
+  rankCardBackgroundURL    String?
+  rankCardLevelColor       String?
+  rankCardRankColor        String?
+  rankCardProgressbarColor String?
+  noXpChannels             String?
+  noXpRoles                String?
+  xpRate                   Int?
+  levelUpMessage           String?
+  levelUpChannel           String?
+  topRankedRoleId          String?
+  stackingRoles            Boolean?
+}
+
+model Role {
+  id      Int    @id @default(autoincrement())
+  guildId String
+  roleId  String
+  level   Int
+}
+
+// ========== 货币系统 (跨服统一) ==========
+
+model Wallet {
+  id        Int    @id @default(autoincrement())
+  userId    String @unique
+  gold      Float  @default(0)
+  silver    Float  @default(0)
+  username  String?
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  fromUserId  String
+  toUserId    String
+  currency    String   // "gold" | "silver"
+  amount      Float
+  type        String   // "transfer" | "earn_chat" | "earn_checkin" | "admin_give" | "admin_take"
+  note        String?
+  guildId     String?  // which server the action happened in
+  createdAt   DateTime @default(now())
+}
+
+model CheckIn {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  guildId     String   @default("")
+  date        String   // "YYYY-MM-DD" format
+  streak      Int      @default(1)
+  bonus       Float    @default(0)
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, guildId, date])
+}

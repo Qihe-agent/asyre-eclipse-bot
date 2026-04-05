@@ -1,0 +1,318 @@
+{
+  "meta": {
+    "id": "creative-studio",
+    "name": "创意工作室",
+    "name_en": "Creative Studio",
+    "description": "适合艺术团队、文创工作室、兴趣社群。包含公告、绘画、写作、音乐、视频、戏剧、讲堂 7 个面板。",
+    "version": "1.0.0",
+    "panelCount": 7
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "成员",
+      "color": "#9B59B6",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "READ_MESSAGE_HISTORY"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "announcements",
+      "panelKey": "announcements",
+      "private": false
+    },
+    {
+      "name": "art-studio",
+      "panelKey": "art_studio",
+      "private": true
+    },
+    {
+      "name": "writing",
+      "panelKey": "writing_hall",
+      "private": true
+    },
+    {
+      "name": "music",
+      "panelKey": "music_room",
+      "private": true
+    },
+    {
+      "name": "video",
+      "panelKey": "video_room",
+      "private": true
+    },
+    {
+      "name": "theater",
+      "panelKey": "stage",
+      "private": true
+    },
+    {
+      "name": "lecture",
+      "panelKey": "classroom",
+      "private": false
+    }
+  ],
+  "panels": {
+    "announcements": {
+      "title": "🌑 圣旨",
+      "description": "**📝 开子区** — 创建专题讨论\n**🗑️ 清空** — 清理频道下的子区\n\n金銮殿 · 圣旨",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 圣旨",
+      "skillName": "decree",
+      "buttonLabels": {
+        "open": "📝 开子区",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "decision",
+          "emoji": "⚖️",
+          "label": "重要决定",
+          "description": "记录重大决策和执行方案"
+        },
+        {
+          "value": "announcement",
+          "emoji": "📢",
+          "label": "公告",
+          "description": "发布正式公告通知"
+        },
+        {
+          "value": "milestone",
+          "emoji": "🏆",
+          "label": "纪念日",
+          "description": "记录里程碑和纪念事件"
+        },
+        {
+          "value": "discussion",
+          "emoji": "💬",
+          "label": "讨论",
+          "description": "开放式讨论专题"
+        }
+      ]
+    },
+    "art_studio": {
+      "title": "🎨 画院",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\nAI 生图、修图",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 画院",
+      "skillName": "painting",
+      "buttonLabels": {
+        "open": "🎨 开始画",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "generate",
+          "emoji": "🖌️",
+          "label": "AI 生图",
+          "description": "用 AI 生成图片"
+        },
+        {
+          "value": "edit",
+          "emoji": "✂️",
+          "label": "修图",
+          "description": "编辑/修改已有图片"
+        },
+        {
+          "value": "style",
+          "emoji": "🎭",
+          "label": "风格转换",
+          "description": "图片风格化处理"
+        }
+      ]
+    },
+    "writing_hall": {
+      "title": "📜 文渊阁",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n文章/文案/脚本创作",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 文渊阁",
+      "skillName": "writing",
+      "buttonLabels": {
+        "open": "✍️ 开始写",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "article",
+          "emoji": "📝",
+          "label": "文章",
+          "description": "长文/深度文章"
+        },
+        {
+          "value": "copy",
+          "emoji": "💡",
+          "label": "文案",
+          "description": "短文案/营销文案"
+        },
+        {
+          "value": "script",
+          "emoji": "🎬",
+          "label": "脚本",
+          "description": "视频/播客脚本"
+        }
+      ]
+    },
+    "music_room": {
+      "title": "🎵 乐坊",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n配音/TTS/音频制作",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 乐坊",
+      "skillName": "music-studio",
+      "buttonLabels": {
+        "open": "🎵 开始",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "tts",
+          "emoji": "🗣️",
+          "label": "配音/TTS",
+          "description": "文字转语音"
+        },
+        {
+          "value": "audio",
+          "emoji": "🎧",
+          "label": "音频制作",
+          "description": "音频编辑处理"
+        }
+      ]
+    },
+    "video_room": {
+      "title": "📹 影像司",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n视频制作、剪辑",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 影像司",
+      "skillName": "video-dept",
+      "buttonLabels": {
+        "open": "📹 开始",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "produce",
+          "emoji": "🎬",
+          "label": "视频制作",
+          "description": "从素材到成片"
+        },
+        {
+          "value": "edit_clip",
+          "emoji": "✂️",
+          "label": "剪辑",
+          "description": "视频剪辑处理"
+        }
+      ]
+    },
+    "stage": {
+      "title": "🎭 戏台",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n影视/综艺/动漫",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 戏台",
+      "skillName": "theater",
+      "buttonLabels": {
+        "open": "🎭 开讨论",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "movie",
+          "emoji": "🎬",
+          "label": "影视",
+          "description": "电影/电视剧讨论"
+        },
+        {
+          "value": "variety",
+          "emoji": "📺",
+          "label": "综艺",
+          "description": "综艺节目"
+        },
+        {
+          "value": "anime",
+          "emoji": "🎌",
+          "label": "动漫",
+          "description": "动漫讨论"
+        }
+      ]
+    },
+    "classroom": {
+      "title": "📚 经筵",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n读书、学习、知识讨论",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 经筵",
+      "skillName": "lecture",
+      "buttonLabels": {
+        "open": "📚 开讨论",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "reading",
+          "emoji": "📖",
+          "label": "读书",
+          "description": "书籍阅读讨论"
+        },
+        {
+          "value": "learning",
+          "emoji": "🧠",
+          "label": "学习",
+          "description": "学习笔记和讨论"
+        },
+        {
+          "value": "discussion",
+          "emoji": "💬",
+          "label": "知识讨论",
+          "description": "开放知识交流"
+        }
+      ]
+    }
+  }
+}

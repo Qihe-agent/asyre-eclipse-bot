@@ -1,0 +1,29 @@
+{
+  "name": "eclipse-bot",
+  "version": "1.0.0",
+  "description": "Config-driven Discord AI workspace. Deploy skill panels with templates.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx prisma generate && tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "setup": "npx prisma migrate dev --name init"
+  },
+  "keywords": ["discord", "bot", "ai", "workspace", "skill-panel"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.44",
+    "@prisma/client": "^5.22.0",
+    "axios": "^1.8.4",
+    "chalk": "^2.4.2",
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8",
+    "prisma": "^5.22.0",
+    "typescript": "^5.9.3"
+  }
+}

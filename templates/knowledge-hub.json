@@ -1,0 +1,301 @@
+{
+  "meta": {
+    "id": "knowledge-hub",
+    "name": "知识管理",
+    "name_en": "Knowledge Hub",
+    "description": "适合研究团队、培训机构、企业内训。包含知识入库、知识锻造、思维工具、工作区整理、面板管控 5 个面板。",
+    "version": "1.0.0",
+    "panelCount": 5
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "成员",
+      "color": "#9B59B6",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "READ_MESSAGE_HISTORY"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "kb-ingest",
+      "panelKey": "kb_ingest",
+      "private": true
+    },
+    {
+      "name": "kb-forge",
+      "panelKey": "kb_forge",
+      "private": true
+    },
+    {
+      "name": "thinking",
+      "panelKey": "thinking",
+      "private": false
+    },
+    {
+      "name": "tidy",
+      "panelKey": "tidy",
+      "private": true
+    },
+    {
+      "name": "console",
+      "panelKey": "console",
+      "private": true
+    }
+  ],
+  "panels": {
+    "kb_ingest": {
+      "title": "📥 知识库入库系统",
+      "description": "丢链接自动入库 + AI 批判审阅 + 语义搜索\n\n**📥 入库** → 选择内容类型，创建入库子区\n**🔍 搜索** → 在知识库中语义搜索\n**📊 统计** → 查看知识库概览",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Knowledge Base",
+      "skillName": "knowledge-base",
+      "buttonLabels": {
+        "open": "📥 入库",
+        "archive": "🔍 搜索",
+        "history": "📊 统计",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行知识库搜索。读取本 thread 的全部内容，提取用户的搜索意图，然后调用知识库 API（POST http://127.0.0.1:18793/search）进行语义搜索，将结果格式化回报到 thread 中。包括：标题、来源URL、发布日期、入库日期、相关性评分、内容摘要。如果有对应的审阅笔记（#review），一并显示。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "调用知识库 API（GET http://127.0.0.1:18793/stats）获取统计信息，并列出最近 10 条入库记录（GET http://127.0.0.1:18793/list?limit=10），显示标题、类型、入库日期。",
+      "threadPrefix": "KB",
+      "types": [
+        {
+          "value": "article",
+          "emoji": "🌐",
+          "label": "网页文章",
+          "description": "自动抓取全文 → AI 审阅 → 入库"
+        },
+        {
+          "value": "youtube",
+          "emoji": "🎬",
+          "label": "YouTube 视频",
+          "description": "NotebookLM 转录 → 结构化摘要 → AI 审阅 → 入库"
+        },
+        {
+          "value": "tweet",
+          "emoji": "🐦",
+          "label": "X/Twitter",
+          "description": "推文/长文 → 自动抓取 → AI 审阅 → 入库"
+        },
+        {
+          "value": "pdf",
+          "emoji": "📄",
+          "label": "PDF/文档",
+          "description": "上传文档 → 提取文本 → AI 审阅 → 入库"
+        },
+        {
+          "value": "manual",
+          "emoji": "📝",
+          "label": "手动输入",
+          "description": "直接输入文字/笔记 → AI 审阅 → 入库"
+        }
+      ]
+    },
+    "kb_forge": {
+      "title": "🗺️ 知识锻造系统",
+      "description": "把任何素材（文章/音频/视频/URL）转化为结构化知识模块 + 3D交互知识图谱\n\n**📚 开始学习** → 选择学习类型，创建学习子区\n**📦 归档** → 小A 执行完整知识内化流程\n**📜 往期** → 查看已有知识模块\n**🗑️ 清空** → 清理频道对话",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Knowledge Forge",
+      "skillName": "knowledge-forge",
+      "buttonLabels": {
+        "open": "📚 开始学习",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行 knowledge-forge skill 完整流程。读取本 thread 的全部内容，按以下步骤处理：\n1. Phase 0 预处理：全文阅读素材，识别 Asher-isms，提取核心逻辑链条\n2. Phase 0.5 归档决策：判断是合并已有模块还是新建（强关联→合并，弱关联→新建）\n3. Phase 1 建立框架：复制 _TEMPLATE.md 到目标目录\n4. Phase 2 深度还原 + 原子级视觉化：填充每个章节，同时生成 Mermaid/表格（长文档≥15个可视化）\n5. Phase 2.5 反模式：每个 Trap 含 Why/Fix/Example/Positive Scenario/Visual\n6. Phase 3 交叉验证：核对字数底线(≥30%)、术语、公式、图表完整性\n7. Phase 3.5 元数据同步：更新 _Glossary_Index.json(≥15条) + _Formula_Index.json(≥5条)\n8. Phase 4 3D知识图谱：复制 template-graph.html，注入 nodes 和 links 数据\n\n产出存入 __WORKSPACE__/profile/02_Skill_Tree/Modules/{Category}/{ModuleName}/\n铁律：字数底线30%，术语定义≥80字，公式机制≥50字，Mermaid 用 -->|Label| 语法。\n完成后在 thread 回报结果。\n\n⚠️ 如果产出物性质不完全匹配上述固定路径，参考 FILE_ROUTING.md 归档路由决策框架灵活判断。",
+      "historyPrompt": "列出 __WORKSPACE__/profile/02_Skill_Tree/Modules/ 下所有知识模块，按领域分类显示模块名、文件数量、最后修改日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "article",
+          "emoji": "📄",
+          "label": "文章/长文",
+          "description": "网页文章、PDF、长文阅读 → 知识模块化"
+        },
+        {
+          "value": "audio_transcript",
+          "emoji": "🎙️",
+          "label": "音频/转写",
+          "description": "播客、录音、语音转写 → 知识模块化"
+        },
+        {
+          "value": "video",
+          "emoji": "🎬",
+          "label": "视频内容",
+          "description": "YouTube、课程视频 → 知识模块化"
+        },
+        {
+          "value": "book_chapter",
+          "emoji": "📚",
+          "label": "书籍/章节",
+          "description": "书籍章节、论文 → 深度知识模块"
+        },
+        {
+          "value": "free_topic",
+          "emoji": "🧠",
+          "label": "自由学习",
+          "description": "任意主题，直接探讨并整理成模块"
+        }
+      ]
+    },
+    "thinking": {
+      "title": "🧠 思维工具箱",
+      "description": "8 种思维利器（来自李继刚 ljg-skills 适配）\n\n圆桌讨论 / 写作引擎 / 降秩引擎 / 概念解剖\n投资分析 / 白话引擎 / 论文阅读 / 旅行研究\n\n**🧠 开始** → 选择工具类型，创建工作子区\n**📦 归档** → 整理产出 + 存档\n**📜 往期** → 查看历史记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Thinking Tools (adapted from ljg-skills)",
+      "skillName": "thinking-tools",
+      "buttonLabels": {
+        "open": "🧠 开始",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请根据本 thread 的类型标签识别对应的 skill，读取其 SKILL.md 后执行完整流程。\n\n类型-Skill 映射：\n- roundtable → roundtable（圆桌讨论）\n- writing → writing-engine（写作引擎）\n- rank → rank-reducer（降秩引擎）\n- concept → concept-anatomy（概念解剖）\n- invest → invest-analysis（投资分析）\n- plain → plain-rewrite（白话引擎）\n- paper → paper-reader（论文阅读）\n- travel → travel-research（旅行研究）\n\n读取 thread 全部内容，按对应 SKILL.md 的流程处理，产出写入对应目录。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/archive/ 和 __WORKSPACE__/creations/articles/ 下最近 10 个思维工具产出，显示类型、标题、日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "roundtable",
+          "emoji": "🗣️",
+          "label": "圆桌讨论",
+          "description": "多人辩证对话 — 真实人物 × 结构化交锋 × 知识网络"
+        },
+        {
+          "value": "writing",
+          "emoji": "✍️",
+          "label": "写作引擎",
+          "description": "带着观点出发，在写的过程中把它想透"
+        },
+        {
+          "value": "rank",
+          "emoji": "🔬",
+          "label": "降秩引擎",
+          "description": "找出领域背后真正撑着它的几根独立的力"
+        },
+        {
+          "value": "concept",
+          "emoji": "🔪",
+          "label": "概念解剖",
+          "description": "八维解构任何概念 — 历史/辩证/现象/语言/形式/存在/美感/元反思"
+        },
+        {
+          "value": "invest",
+          "emoji": "💰",
+          "label": "投资分析",
+          "description": "秩序创造机器判定 — 飞轮/抗冲击/引力场"
+        },
+        {
+          "value": "plain",
+          "emoji": "💡",
+          "label": "白话引擎",
+          "description": "重写到聪明的 12 岁小孩也能懂"
+        },
+        {
+          "value": "paper",
+          "emoji": "📄",
+          "label": "论文阅读",
+          "description": "为非学术人士猎取论文中的思想"
+        },
+        {
+          "value": "travel",
+          "emoji": "🗺️",
+          "label": "旅行研究",
+          "description": "考古学式案头研究 — 博物馆+古建+文化脉络"
+        }
+      ]
+    },
+    "tidy": {
+      "title": "🧹 工作区整理系统",
+      "description": "扫描 workspace 根目录，识别散落/过期/错位的文件，按规则自动归位或标记\n\n**🧹 开始扫描** → 执行完整工作区扫描\n**🗑️ 清空** → 清理频道对话",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Workspace Tidy",
+      "skillName": "workspace-tidy",
+      "buttonLabels": {
+        "open": "🧹 开始扫描",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "TIDY",
+      "types": [
+        {
+          "value": "full_scan",
+          "emoji": "🧹",
+          "label": "完整扫描",
+          "description": "扫描根目录 → 识别散落文件 → 清理过期临时文件 → 生成报告"
+        },
+        {
+          "value": "lifecycle",
+          "emoji": "♻️",
+          "label": "生命周期清理",
+          "description": "只检查过期文件：_tmp_* >7天、memory >30天、logs >30天"
+        }
+      ]
+    },
+    "console": {
+      "title": "🌑 Eclipse 面板控制台",
+      "description": "Skill 面板统一管理 — 查看已部署面板、部署新面板、重发/刷新面板\n\n**📋 面板列表** → 查看所有已部署的 Skill 面板\n**📦 部署新面板** → 为新 Skill 频道部署面板\n**🔄 重发面板** → 刷新指定频道的面板消息\n**🗑️ 清空** → 清理频道对话",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse Console",
+      "skillName": "eclipse-console",
+      "buttonLabels": {
+        "open": "🔧 新任务",
+        "history": "📋 面板列表",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "读取 Projects/NetLevel-Bot/src/skill-panels.json，列出所有面板的 key、标题、频道ID、按钮数量。标注哪些有清空按钮、哪些没有。",
+      "threadPrefix": "ECLI",
+      "types": [
+        {
+          "value": "deploy_panel",
+          "emoji": "📦",
+          "label": "部署面板",
+          "description": "为新 Skill 频道部署 Eclipse 面板"
+        },
+        {
+          "value": "refresh_panel",
+          "emoji": "🔄",
+          "label": "重发面板",
+          "description": "刷新/重发指定频道的面板消息（带最新按钮）"
+        },
+        {
+          "value": "audit_panels",
+          "emoji": "🔍",
+          "label": "面板审查",
+          "description": "检查所有面板配置完整性（缺按钮/缺频道等）"
+        }
+      ]
+    }
+  }
+}

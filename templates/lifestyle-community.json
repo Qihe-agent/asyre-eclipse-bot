@@ -1,0 +1,327 @@
+{
+  "meta": {
+    "id": "lifestyle-community",
+    "name": "生活社群",
+    "name_en": "Lifestyle Community",
+    "description": "适合兴趣社群、情感社群、生活方式品牌。包含养生、药房、情书、月光、许愿池、音乐花园、棋室、私密空间 8 个面板。",
+    "version": "1.0.0",
+    "panelCount": 8
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "成员",
+      "color": "#9B59B6",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "READ_MESSAGE_HISTORY"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "wellness",
+      "panelKey": "wellness",
+      "private": false
+    },
+    {
+      "name": "herbal",
+      "panelKey": "herbal",
+      "private": true
+    },
+    {
+      "name": "love-notes",
+      "panelKey": "love_notes",
+      "private": true
+    },
+    {
+      "name": "moonlit",
+      "panelKey": "moonlit",
+      "private": false
+    },
+    {
+      "name": "wishes",
+      "panelKey": "wishes",
+      "private": false
+    },
+    {
+      "name": "music-garden",
+      "panelKey": "music_garden",
+      "private": false
+    },
+    {
+      "name": "chess",
+      "panelKey": "game_room",
+      "private": false
+    },
+    {
+      "name": "private",
+      "panelKey": "private_space",
+      "private": true
+    }
+  ],
+  "panels": {
+    "wellness": {
+      "title": "🌿 养生堂",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n健康、运动、饮食",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 养生堂",
+      "skillName": "wellness",
+      "buttonLabels": {
+        "open": "🌿 开讨论",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "fitness",
+          "emoji": "💪",
+          "label": "运动",
+          "description": "健身/运动记录"
+        },
+        {
+          "value": "diet",
+          "emoji": "🥗",
+          "label": "饮食",
+          "description": "饮食计划/记录"
+        },
+        {
+          "value": "health",
+          "emoji": "❤️",
+          "label": "健康",
+          "description": "健康话题"
+        }
+      ]
+    },
+    "herbal": {
+      "title": "💊 药房",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n就医记录、用药、体检",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 药房",
+      "skillName": "pharmacy",
+      "buttonLabels": {
+        "open": "💊 开记录",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "medical",
+          "emoji": "🏥",
+          "label": "就医",
+          "description": "就医记录"
+        },
+        {
+          "value": "medication",
+          "emoji": "💊",
+          "label": "用药",
+          "description": "用药记录"
+        },
+        {
+          "value": "checkup",
+          "emoji": "📋",
+          "label": "体检",
+          "description": "体检记录"
+        }
+      ]
+    },
+    "love_notes": {
+      "title": "💌 锦书",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n给对方写的信、留言、表白",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 锦书",
+      "skillName": "love-letter",
+      "buttonLabels": {
+        "open": "💌 写信",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "letter",
+          "emoji": "💌",
+          "label": "写信",
+          "description": "给对方写信"
+        },
+        {
+          "value": "confession",
+          "emoji": "❤️",
+          "label": "表白",
+          "description": "表白/告白"
+        }
+      ]
+    },
+    "moonlit": {
+      "title": "🌙 月下",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n深夜心里话、情绪宣泄",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 月下",
+      "skillName": "moonlight",
+      "buttonLabels": {
+        "open": "🌙 倾诉",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "feelings",
+          "emoji": "🌙",
+          "label": "心里话",
+          "description": "说说心里话"
+        },
+        {
+          "value": "vent",
+          "emoji": "💨",
+          "label": "宣泄",
+          "description": "情绪宣泄"
+        }
+      ]
+    },
+    "wishes": {
+      "title": "⭐ 许愿池",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n愿望、未来规划、梦想",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 许愿池",
+      "skillName": "wishing-well",
+      "buttonLabels": {
+        "open": "⭐ 许愿",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "wish",
+          "emoji": "⭐",
+          "label": "许愿",
+          "description": "写下愿望"
+        },
+        {
+          "value": "plan",
+          "emoji": "🗓️",
+          "label": "规划",
+          "description": "未来规划"
+        },
+        {
+          "value": "dream",
+          "emoji": "💭",
+          "label": "梦想",
+          "description": "聊聊梦想"
+        }
+      ]
+    },
+    "music_garden": {
+      "title": "🎶 曲苑",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n音乐/歌单分享",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 曲苑",
+      "skillName": "music-garden",
+      "buttonLabels": {
+        "open": "🎶 分享",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "share_music",
+          "emoji": "🎵",
+          "label": "歌曲分享",
+          "description": "分享喜欢的音乐"
+        },
+        {
+          "value": "playlist",
+          "emoji": "📋",
+          "label": "歌单",
+          "description": "歌单推荐"
+        }
+      ]
+    },
+    "game_room": {
+      "title": "♟️ 棋局",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n游戏",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 棋局",
+      "skillName": "chess",
+      "buttonLabels": {
+        "open": "🎮 开局",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "game",
+          "emoji": "🎮",
+          "label": "游戏",
+          "description": "游戏讨论"
+        }
+      ]
+    },
+    "private_space": {
+      "title": "💕 寝宫",
+      "description": "**📝 开子区** — 创建讨论\n**🗑️ 清空** — 清理频道\n\n两人的日常对话、撒娇、吐槽",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · 寝宫",
+      "skillName": "bedroom",
+      "buttonLabels": {
+        "open": "💕 开聊",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "",
+      "historyPrompt": "",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "daily",
+          "emoji": "💬",
+          "label": "日常",
+          "description": "日常对话"
+        },
+        {
+          "value": "vent",
+          "emoji": "😤",
+          "label": "吐槽",
+          "description": "吐槽发泄"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "meta": {
+    "id": "service-agency",
+    "name": "服务型公司",
+    "name_en": "Service Agency",
+    "description": "适合设计公司、咨询公司、外包团队。包含报价、客户跟进、展示方案、设计工作台、公众号、内容卡片 6 个面板。",
+    "version": "1.0.0",
+    "panelCount": 6
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "成员",
+      "color": "#9B59B6",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "READ_MESSAGE_HISTORY"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "quotes",
+      "panelKey": "client_quote",
+      "private": true
+    },
+    {
+      "name": "followup",
+      "panelKey": "client_followup",
+      "private": true
+    },
+    {
+      "name": "showcase",
+      "panelKey": "showcase",
+      "private": true
+    },
+    {
+      "name": "design",
+      "panelKey": "design_work",
+      "private": true
+    },
+    {
+      "name": "wechat",
+      "panelKey": "wechat_pub",
+      "private": true
+    },
+    {
+      "name": "cards",
+      "panelKey": "visual_card",
+      "private": true
+    }
+  ],
+  "panels": {
+    "client_quote": {
+      "title": "💰 客户报价系统",
+      "description": "为本地企业客户生成 HTML 报价展示页 + MD 报价文档\n\n**💰 新报价** → 选择客户类型，创建报价子区\n**📦 归档交付** → 小A 生成展示页 + 报价文档 + 部署上线\n**📜 往期** → 查看历史报价记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Quote Template",
+      "skillName": "quote-template",
+      "buttonLabels": {
+        "open": "💰 新报价",
+        "archive": "📦 归档交付",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行 quote-template skill 完整流程。读取本 thread 的全部内容，按以下步骤处理：\n1. Phase 1 需求采集：从 thread 中提取客户信息（公司名、行业、主要痛点、特殊需求）\n2. Phase 2 行业适配：根据客户行业替换「行业痛点 section」内容（建筑→工地管理，餐饮→排班订单，零售→库存客服等）\n3. Phase 3 生成报价文档：\n   - 3.1 HTML 展示页（参考 references/aflux-example.html，明亮主题，page-inner 800px）\n   - 3.2 MD 内部报价文档（存 __WORKSPACE__/projects/3-internal/quotes/）\n4. Phase 4 Hero 定制：双方 logo + 公司名 + 日期（报价文档封面格式）\n5. Phase 5 AI Demo 生成（如适用）：用客户实际素材生成 demo 图（AI 画图 section）\n6. Phase 6 部署：复制到 __WORKSPACE__/projects/1-website/{client}.html，访问 http://13.228.189.206/showcase/{client}.html\n\n⚠️ 定价体系不变（三阶段递进），行业内容按客户定制。\n⚠️ 公司主体：海外客户→ Wealth Creation Pty Ltd，国内客户→ 启合涌现。\n⚠️ 编码任务交子 agent（Opus），文案规范：全文「您」、无人名、团队兜底。\n\n完成后在 thread 回报展示页链接 + MD 文档路径。\n\n⚠️ 如果产出物性质不完全匹配上述固定路径，参考 FILE_ROUTING.md 归档路由决策框架灵活判断。",
+      "historyPrompt": "列出 __WORKSPACE__/projects/3-internal/quotes/ 目录下所有报价文档，显示客户名、行业、报价金额、日期、展示页链接。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "construction",
+          "emoji": "🏗️",
+          "label": "建筑装修",
+          "description": "建筑施工、装修工程、工地管理"
+        },
+        {
+          "value": "food_retail",
+          "emoji": "🍜",
+          "label": "餐饮零售",
+          "description": "餐饮、零售门店、连锁经营"
+        },
+        {
+          "value": "manufacturing",
+          "emoji": "🏭",
+          "label": "制造工厂",
+          "description": "工厂生产、制造业、供应链"
+        },
+        {
+          "value": "ecommerce",
+          "emoji": "🛒",
+          "label": "电商/跨境",
+          "description": "跨境电商、独立站、平台运营"
+        },
+        {
+          "value": "education",
+          "emoji": "📚",
+          "label": "教育培训",
+          "description": "在线教育、企业培训、教育机构"
+        },
+        {
+          "value": "tourism",
+          "emoji": "✈️",
+          "label": "旅游服务",
+          "description": "旅行社、景区、文化旅游"
+        },
+        {
+          "value": "healthcare",
+          "emoji": "🏥",
+          "label": "医疗健康",
+          "description": "医疗服务、健康管理、诊所"
+        },
+        {
+          "value": "custom",
+          "emoji": "✨",
+          "label": "其他行业",
+          "description": "其他行业 — 在子区中说明"
+        }
+      ]
+    },
+    "client_followup": {
+      "title": "🤝 客户跟进系统",
+      "description": "基于 DBS 商业诊断框架，分析客户当前卡点，生成精准跟进策略和沟通话术\n\n**🚀 开始跟进** → 选择卡点类型，创建跟进子区\n**📦 归档** → 整理跟进结果 + 更新客户画像\n**📜 往期** → 查看历史跟进记录\n**🗑️ 清空** → 清理频道下的子区",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Client Followup",
+      "skillName": "client-followup",
+      "buttonLabels": {
+        "open": "🚀 开始跟进",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请归档本次客户跟进。读取本 thread 全部内容，执行以下操作：\n1. 提取客户名、卡点类型、跟进策略\n2. 更新客户档案（__WORKSPACE__/memory/__WORKSPACE__/clients/{name}.md 或 __WORKSPACE__/clients/{UID}/profile.md）\n3. 追加跟进记录到客户档案的「互动点评记录」section\n4. 写入当日记忆日志 __WORKSPACE__/memory/YYYY-MM-DD.md\n5. 如产生定价/管线/产品需求变更，沉淀到 __WORKSPACE__/projects/3-internal/ 对应目录\n\n归档完成后在 thread 回报结果。",
+      "historyPrompt": "列出 __WORKSPACE__/memory/__WORKSPACE__/clients/ 目录下所有客户的最近跟进记录，显示客户名、上次跟进日期、当前状态、卡点类型。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "price_anxiety",
+          "emoji": "💰",
+          "label": "价格焦虑",
+          "description": "\"研究研究\" \"有点贵\" \"要再想想\" — DBS 定价检验"
+        },
+        {
+          "value": "risk_fear",
+          "emoji": "😰",
+          "label": "风险恐惧",
+          "description": "\"不续约怎么办\" \"数据安全吗\" — DBS 假设错误层"
+        },
+        {
+          "value": "value_unclear",
+          "emoji": "🤔",
+          "label": "价值模糊",
+          "description": "\"能具体做什么\" \"和XX有什么区别\" — DBS 需求检验"
+        },
+        {
+          "value": "decision_delay",
+          "emoji": "🐌",
+          "label": "决策拖延",
+          "description": "已读不回、\"下周再说\"、持续无动作 — DBS 心理问题"
+        },
+        {
+          "value": "need_drift",
+          "emoji": "🔄",
+          "label": "需求漂移",
+          "description": "不断提新需求、偏离原始痛点 — DBS 成长层级错位"
+        },
+        {
+          "value": "routine",
+          "emoji": "📋",
+          "label": "常规跟进",
+          "description": "定期维护关系、售后回访、续约提醒"
+        }
+      ]
+    },
+    "showcase": {
+      "title": "🏗️ 展示方案生成器",
+      "description": "一键生成行业展示物料（展示方案+痛点调研+行业前瞻）\n\n**🚀 新方案** → 选择类型，创建方案子区\n**📦 归档部署** → 小A 生成全套物料 + 部署上线\n**📜 往期** → 查看历史展示方案",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Showcase Page",
+      "skillName": "showcase-page",
+      "buttonLabels": {
+        "open": "🚀 新方案",
+        "archive": "📦 归档部署",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请读取 showcase-page 的 SKILL.md，按其中的工作流执行。\n\n根据 thread 中的类型标签决定产出物：\n- 展示方案 → 服务方案展示页（报价+能力+CTA）\n- 痛点调研 → 行业痛点分析 + AI 解决方案\n- 行业前瞻 → 宏观环境 + 行业格局 + AI角色 + 判断 + 路线图\n\n⚠️ 必须走 Phase 2.5（先写 content.md），不要跳过！\n⚠️ HTML 使用 references/bestbuy-template.html 白色商务模板\n⚠️ 存档路径：__WORKSPACE__/projects/3-internal/showcase/{YYYY-MM-DD}-{client-slug}/\n⚠️ 部署后配 Nginx 路由\n\n完成后在 thread 回报访问链接和产出清单。",
+      "historyPrompt": "列出 __WORKSPACE__/projects/3-internal/showcase/ 目录下所有展示方案项目，显示类型、客户名、部署链接、日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "pain_research",
+          "emoji": "🔍",
+          "label": "痛点调研",
+          "description": "行业痛点深度分析 + AI 解决方案"
+        },
+        {
+          "value": "industry_outlook",
+          "emoji": "📊",
+          "label": "行业前瞻",
+          "description": "宏观环境 + 行业格局 + AI角色 + 判断"
+        },
+        {
+          "value": "ecommerce",
+          "emoji": "🛒",
+          "label": "电商/跨境",
+          "description": "跨境电商、独立站、平台运营"
+        },
+        {
+          "value": "manufacturing",
+          "emoji": "🏭",
+          "label": "制造/工厂",
+          "description": "工厂数字化、供应链、质检"
+        },
+        {
+          "value": "food_retail",
+          "emoji": "🍜",
+          "label": "餐饮/零售",
+          "description": "餐饮管理、门店运营、会员系统"
+        },
+        {
+          "value": "education",
+          "emoji": "📚",
+          "label": "教育/培训",
+          "description": "在线教育、企业培训、知识付费"
+        },
+        {
+          "value": "tourism",
+          "emoji": "✈️",
+          "label": "旅游/文旅",
+          "description": "旅行社、景区、文化旅游"
+        },
+        {
+          "value": "finance_legal",
+          "emoji": "⚖️",
+          "label": "金融/法务",
+          "description": "金融服务、法律咨询、合规"
+        },
+        {
+          "value": "healthcare",
+          "emoji": "🏥",
+          "label": "医疗/健康",
+          "description": "医疗服务、健康管理、药企"
+        },
+        {
+          "value": "custom",
+          "emoji": "✨",
+          "label": "自定义行业",
+          "description": "其他行业 — 在子区中说明"
+        }
+      ]
+    },
+    "design_work": {
+      "title": "🎨 设计工作台",
+      "description": "每个设计项目独立子区，AI 全程参与\n\n**🎨 开设计** → 选择类型，创建设计子区\n**📦 归档** → 整理设计产出 + 存档决策\n**📜 往期** → 查看历史设计项目",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Design Studio",
+      "skillName": "design-studio",
+      "buttonLabels": {
+        "open": "🎨 开设计",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请归档这个设计项目。读取本 thread 的全部对话，执行以下操作：\n1. 提取设计目标、需求、参考\n2. 整理设计决策记录（选了什么方案、为什么）\n3. 收集最终产出物（文件路径、图片、链接）\n4. 生成设计项目摘要（200字以内）\n5. 存入 __WORKSPACE__/projects/3-internal/design/{日期}-{项目名}.md\n\n归档完成后回报结果。\n\n⚠️ 如果产出物性质不完全匹配上述固定路径，参考 FILE_ROUTING.md 归档路由决策框架灵活判断。",
+      "historyPrompt": "列出 __WORKSPACE__/projects/3-internal/design/ 下最近 10 个设计项目的摘要列表，显示项目名、类型、日期、状态。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "layout",
+          "emoji": "📐",
+          "label": "排版设计",
+          "description": "文章排版、卡片排版、印刷排版"
+        },
+        {
+          "value": "ui_ux",
+          "emoji": "📱",
+          "label": "UI/UX 设计",
+          "description": "界面设计、交互原型、用户体验"
+        },
+        {
+          "value": "brand",
+          "emoji": "🏷️",
+          "label": "品牌/Logo",
+          "description": "Logo 设计、品牌视觉、VI 系统"
+        },
+        {
+          "value": "banner",
+          "emoji": "🖼️",
+          "label": "海报/Banner",
+          "description": "宣传海报、社媒封面、广告图"
+        },
+        {
+          "value": "video_design",
+          "emoji": "🎬",
+          "label": "视频设计",
+          "description": "视频封面、字幕样式、转场设计"
+        },
+        {
+          "value": "other",
+          "emoji": "✨",
+          "label": "其他设计",
+          "description": "不归类的设计需求"
+        }
+      ]
+    },
+    "wechat_pub": {
+      "title": "📢 微信公众号发布",
+      "description": "推送 Markdown 文章到微信公众号草稿箱。\n\n🔗 丢分享链接 → 自动推送\n📄 或提供 .md 文件路径\n🖼️ 自动处理内嵌配图\n📋 支持多账号管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__",
+      "skillName": "wechat-publish",
+      "archivePrompt": "请读取 wechat-publish 的 SKILL.md，然后处理这个发布任务。读取 thread 中用户提供的分享链接或文件路径，自动解析文件、提取元数据、转换图片路径、推送到微信公众号草稿箱。",
+      "historyPrompt": "列出最近的微信公众号发布记录。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "publish",
+          "emoji": "🚀",
+          "label": "推送文章",
+          "description": "推送 Markdown 文章到公众号草稿箱"
+        },
+        {
+          "value": "manage",
+          "emoji": "⚙️",
+          "label": "账号管理",
+          "description": "添加/查看/测试公众号账号配置"
+        }
+      ]
+    },
+    "visual_card": {
+      "title": "🃏 内容铸卡",
+      "description": "将内容铸成 PNG 视觉卡片。6 种模具：长图/信息图/多卡/视觉笔记/漫画/白板\nHTML 模板 + Playwright 截图，稳定可控\n\n**🃏 开始铸卡** → 选择模具类型，创建铸卡子区\n**📦 归档** → 整理产出 + 存档\n**📜 往期** → 查看历史铸卡记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Content Card",
+      "skillName": "content-card",
+      "buttonLabels": {
+        "open": "🃏 开始铸卡",
+        "archive": "📦 归档",
+        "history": "📜 往期",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "请执行 content-card skill。读取本 thread 的全部内容，按 SKILL.md 流程处理：\n1. 识别内容来源（URL/文本/文件）\n2. 根据用户选择的模具类型读取对应 references/mode-*.md\n3. 先读 references/taste.md 品味准则\n4. 内容预处理 → HTML 模板填充 → Playwright 截图\n5. 输出 PNG 到 __WORKSPACE__/creations/\n\n完成后在 thread 发送 PNG 并回报文件路径。\n\n完成后在 thread 回报结果，并将产出存入 __WORKSPACE__/ 对应目录。",
+      "historyPrompt": "列出 __WORKSPACE__/creations/ 目录下最近 10 个 content-card 产出（PNG 文件），显示文件名、模具类型、日期。",
+      "threadPrefix": "",
+      "types": [
+        {
+          "value": "long",
+          "emoji": "📜",
+          "label": "长图 (-l)",
+          "description": "单张阅读卡，内容自动撑高（默认）"
+        },
+        {
+          "value": "infograph",
+          "emoji": "📊",
+          "label": "信息图 (-i)",
+          "description": "内容驱动的自适应视觉布局"
+        },
+        {
+          "value": "multi",
+          "emoji": "📚",
+          "label": "多卡 (-m)",
+          "description": "自动切分为多张 1080×1440 卡片"
+        },
+        {
+          "value": "sketchnote",
+          "emoji": "✏️",
+          "label": "视觉笔记 (-v)",
+          "description": "手绘风格 sketchnote"
+        },
+        {
+          "value": "comic",
+          "emoji": "🖤",
+          "label": "漫画 (-c)",
+          "description": "日式黑白漫画风格"
+        },
+        {
+          "value": "whiteboard",
+          "emoji": "📋",
+          "label": "白板 (-w)",
+          "description": "白板马克笔风格框图"
+        }
+      ]
+    }
+  }
+}

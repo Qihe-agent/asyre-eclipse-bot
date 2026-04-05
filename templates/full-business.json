@@ -1,0 +1,793 @@
+{
+  "meta": {
+    "id": "full-business",
+    "name": "全业务企业",
+    "name_en": "Full Business",
+    "description": "适合中小企业全面数字化。涵盖战略、营销、销售、运营、财务、行政 6 大部门。",
+    "version": "1.0.0",
+    "panelCount": 31,
+    "departments": {
+      "strategy": [
+        "规划_品牌",
+        "决策_数据分析",
+        "知识_培训"
+      ],
+      "marketing": [
+        "文案_创作",
+        "公众号_小红书",
+        "广告_投放",
+        "客户画像",
+        "营销_文档",
+        "设计_视觉"
+      ],
+      "sales": [
+        "客户_企业",
+        "渠道_销售",
+        "报价_合同",
+        "日程_会议"
+      ],
+      "operations": [
+        "采购_管理",
+        "生产_管理",
+        "打样_跟单",
+        "仓储_物流",
+        "审批_工作流"
+      ],
+      "finance": [
+        "财务_文档",
+        "发票_管理",
+        "税务_社保",
+        "记账_流水",
+        "成本_利润",
+        "凭证_密钥"
+      ],
+      "admin": [
+        "人事_档案",
+        "人员_kpi",
+        "行政_文档",
+        "注册_材料",
+        "合同_管理",
+        "公司_资产",
+        "法务_知产"
+      ]
+    }
+  },
+  "variables": {
+    "__GUILD_ID__": {
+      "description": "Discord 服务器 ID",
+      "required": true
+    },
+    "__BRAND__": {
+      "description": "品牌名 / Brand name",
+      "default": "My Studio"
+    },
+    "__COLOR__": {
+      "description": "主题色 (decimal int)",
+      "default": 15105570
+    },
+    "__BOT_ID__": {
+      "description": "AI Bot 的 Discord User ID",
+      "required": true
+    },
+    "__WORKSPACE__": {
+      "description": "服务器文件工作区路径",
+      "default": "~/workspace"
+    },
+    "__CATEGORY_ID__": {
+      "description": "Discord 频道分类 ID",
+      "required": true
+    }
+  },
+  "roles": [
+    {
+      "name": "管理层",
+      "color": "#E74C3C",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES",
+        "MANAGE_MESSAGES"
+      ]
+    },
+    {
+      "name": "员工",
+      "color": "#3498DB",
+      "permissions": [
+        "VIEW_CHANNEL",
+        "SEND_MESSAGES"
+      ]
+    },
+    {
+      "name": "外部顾问",
+      "color": "#95A5A6",
+      "permissions": [
+        "VIEW_CHANNEL"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "name": "规划 · 品牌",
+      "panelKey": "规划_品牌",
+      "private": true,
+      "department": "strategy"
+    },
+    {
+      "name": "决策 · 数据分析",
+      "panelKey": "决策_数据分析",
+      "private": true,
+      "department": "strategy"
+    },
+    {
+      "name": "知识 · 培训",
+      "panelKey": "知识_培训",
+      "private": true,
+      "department": "strategy"
+    },
+    {
+      "name": "文案 · 创作",
+      "panelKey": "文案_创作",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "公众号 · 小红书",
+      "panelKey": "公众号_小红书",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "广告 · 投放",
+      "panelKey": "广告_投放",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "客户画像",
+      "panelKey": "客户画像",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "营销 · 文档",
+      "panelKey": "营销_文档",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "设计 · 视觉",
+      "panelKey": "设计_视觉",
+      "private": true,
+      "department": "marketing"
+    },
+    {
+      "name": "客户 · 企业",
+      "panelKey": "客户_企业",
+      "private": true,
+      "department": "sales"
+    },
+    {
+      "name": "渠道 · 销售",
+      "panelKey": "渠道_销售",
+      "private": true,
+      "department": "sales"
+    },
+    {
+      "name": "报价 · 合同",
+      "panelKey": "报价_合同",
+      "private": true,
+      "department": "sales"
+    },
+    {
+      "name": "日程 · 会议",
+      "panelKey": "日程_会议",
+      "private": true,
+      "department": "sales"
+    },
+    {
+      "name": "采购 · 管理",
+      "panelKey": "采购_管理",
+      "private": true,
+      "department": "operations"
+    },
+    {
+      "name": "生产 · 管理",
+      "panelKey": "生产_管理",
+      "private": true,
+      "department": "operations"
+    },
+    {
+      "name": "打样 · 跟单",
+      "panelKey": "打样_跟单",
+      "private": true,
+      "department": "operations"
+    },
+    {
+      "name": "仓储 · 物流",
+      "panelKey": "仓储_物流",
+      "private": true,
+      "department": "operations"
+    },
+    {
+      "name": "审批 · 工作流",
+      "panelKey": "审批_工作流",
+      "private": true,
+      "department": "operations"
+    },
+    {
+      "name": "财务 · 文档",
+      "panelKey": "财务_文档",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "发票 · 管理",
+      "panelKey": "发票_管理",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "税务 · 社保",
+      "panelKey": "税务_社保",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "记账 · 流水",
+      "panelKey": "记账_流水",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "成本 · 利润",
+      "panelKey": "成本_利润",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "凭证 · 密钥",
+      "panelKey": "凭证_密钥",
+      "private": true,
+      "department": "finance"
+    },
+    {
+      "name": "人事 · 档案",
+      "panelKey": "人事_档案",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "人员 · KPI",
+      "panelKey": "人员_kpi",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "行政 · 文档",
+      "panelKey": "行政_文档",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "注册 · 材料",
+      "panelKey": "注册_材料",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "合同 · 管理",
+      "panelKey": "合同_管理",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "公司 · 资产",
+      "panelKey": "公司_资产",
+      "private": true,
+      "department": "admin"
+    },
+    {
+      "name": "法务 · 知产",
+      "panelKey": "法务_知产",
+      "private": true,
+      "department": "admin"
+    }
+  ],
+  "panels": {
+    "规划_品牌": {
+      "title": "规划 · 品牌",
+      "description": "品牌定位文档、战略规划、公司介绍",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「规划-品牌」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「规划-品牌」频道最近的任务历史记录。",
+      "threadPrefix": "[规划]",
+      "types": []
+    },
+    "决策_数据分析": {
+      "title": "决策 · 数据分析",
+      "description": "行业数据、竞品分析、经营报告",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「决策-数据分析」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「决策-数据分析」频道最近的任务历史记录。",
+      "threadPrefix": "[决策]",
+      "types": []
+    },
+    "知识_培训": {
+      "title": "知识 · 培训",
+      "description": "公司知识库、培训文档、SOP手册",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「知识-培训」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「知识-培训」频道最近的任务历史记录。",
+      "threadPrefix": "[知识]",
+      "types": []
+    },
+    "文案_创作": {
+      "title": "文案 · 创作",
+      "description": "营销文案、产品描述、爆款脚本",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「文案-创作」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「文案-创作」频道最近的任务历史记录。",
+      "threadPrefix": "[文案]",
+      "types": []
+    },
+    "公众号_小红书": {
+      "title": "公众号 · 小红书",
+      "description": "公众号文章、小红书笔记、社媒排版",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「公众号-小红书」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「公众号-小红书」频道最近的任务历史记录。",
+      "threadPrefix": "[公众号]",
+      "types": []
+    },
+    "广告_投放": {
+      "title": "广告 · 投放",
+      "description": "广告素材制作、投放文案、效果分析",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「广告-投放」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「广告-投放」频道最近的任务历史记录。",
+      "threadPrefix": "[广告]",
+      "types": []
+    },
+    "客户画像": {
+      "title": "客户画像",
+      "description": "复购分析、客户分层、维护策略",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「客户画像」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「客户画像」频道最近的任务历史记录。",
+      "threadPrefix": "[客户画像]",
+      "types": []
+    },
+    "营销_文档": {
+      "title": "营销 · 文档",
+      "description": "营销方案、活动策划、推广文档",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「营销-文档」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「营销-文档」频道最近的任务历史记录。",
+      "threadPrefix": "[营销]",
+      "types": []
+    },
+    "设计_视觉": {
+      "title": "设计 · 视觉",
+      "description": "海报、Banner、产品图、Logo设计",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「设计-视觉」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「设计-视觉」频道最近的任务历史记录。",
+      "threadPrefix": "[设计]",
+      "types": []
+    },
+    "客户_企业": {
+      "title": "客户 · 企业",
+      "description": "客户档案、沟通记录、跟进任务",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「客户-企业」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「客户-企业」频道最近的任务历史记录。",
+      "threadPrefix": "[客户]",
+      "types": []
+    },
+    "渠道_销售": {
+      "title": "渠道 · 销售",
+      "description": "渠道管理、销售策略、业绩追踪",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「渠道-销售」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「渠道-销售」频道最近的任务历史记录。",
+      "threadPrefix": "[渠道]",
+      "types": []
+    },
+    "报价_合同": {
+      "title": "报价 · 合同",
+      "description": "自动生成报价单、合同模板",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「报价-合同」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「报价-合同」频道最近的任务历史记录。",
+      "threadPrefix": "[报价]",
+      "types": []
+    },
+    "日程_会议": {
+      "title": "日程 · 会议",
+      "description": "会议安排、日程提醒、纪要整理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「日程-会议」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「日程-会议」频道最近的任务历史记录。",
+      "threadPrefix": "[日程]",
+      "types": []
+    },
+    "采购_管理": {
+      "title": "采购 · 管理",
+      "description": "采购记录、供应商管理、比价",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「采购-管理」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「采购-管理」频道最近的任务历史记录。",
+      "threadPrefix": "[采购]",
+      "types": []
+    },
+    "生产_管理": {
+      "title": "生产 · 管理",
+      "description": "生产排期、进度追踪、质量管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「生产-管理」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「生产-管理」频道最近的任务历史记录。",
+      "threadPrefix": "[生产]",
+      "types": []
+    },
+    "打样_跟单": {
+      "title": "打样 · 跟单",
+      "description": "打样进度、订单跟踪、交付管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「打样-跟单」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「打样-跟单」频道最近的任务历史记录。",
+      "threadPrefix": "[打样]",
+      "types": []
+    },
+    "仓储_物流": {
+      "title": "仓储 · 物流",
+      "description": "库存管理、物流追踪、出入库记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「仓储-物流」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「仓储-物流」频道最近的任务历史记录。",
+      "threadPrefix": "[仓储]",
+      "types": []
+    },
+    "审批_工作流": {
+      "title": "审批 · 工作流",
+      "description": "请假、报销、采购审批流程",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「审批-工作流」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「审批-工作流」频道最近的任务历史记录。",
+      "threadPrefix": "[审批]",
+      "types": []
+    },
+    "财务_文档": {
+      "title": "财务 · 文档",
+      "description": "财务报表、预算文档、审计资料",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「财务-文档」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「财务-文档」频道最近的任务历史记录。",
+      "threadPrefix": "[财务]",
+      "types": []
+    },
+    "发票_管理": {
+      "title": "发票 · 管理",
+      "description": "发票识别、开票记录、税务归档",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「发票-管理」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「发票-管理」频道最近的任务历史记录。",
+      "threadPrefix": "[发票]",
+      "types": []
+    },
+    "税务_社保": {
+      "title": "税务 · 社保",
+      "description": "税务申报、社保管理、政策查询",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「税务-社保」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「税务-社保」频道最近的任务历史记录。",
+      "threadPrefix": "[税务]",
+      "types": []
+    },
+    "记账_流水": {
+      "title": "记账 · 流水",
+      "description": "日常收支记账、银行流水整理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「记账-流水」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「记账-流水」频道最近的任务历史记录。",
+      "threadPrefix": "[记账]",
+      "types": []
+    },
+    "成本_利润": {
+      "title": "成本 · 利润",
+      "description": "成本核算、利润分析、定价策略",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「成本-利润」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「成本-利润」频道最近的任务历史记录。",
+      "threadPrefix": "[成本]",
+      "types": []
+    },
+    "凭证_密钥": {
+      "title": "凭证 · 密钥",
+      "description": "账号密码管理、证书存档",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「凭证-密钥」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「凭证-密钥」频道最近的任务历史记录。",
+      "threadPrefix": "[凭证]",
+      "types": []
+    },
+    "人事_档案": {
+      "title": "人事 · 档案",
+      "description": "员工档案、入职离职、合同管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「人事-档案」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「人事-档案」频道最近的任务历史记录。",
+      "threadPrefix": "[人事]",
+      "types": []
+    },
+    "人员_kpi": {
+      "title": "人员 · KPI",
+      "description": "绩效考核、目标管理、评估记录",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「人员-kpi」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「人员-kpi」频道最近的任务历史记录。",
+      "threadPrefix": "[人员]",
+      "types": []
+    },
+    "行政_文档": {
+      "title": "行政 · 文档",
+      "description": "行政通知、办公制度、资产管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「行政-文档」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「行政-文档」频道最近的任务历史记录。",
+      "threadPrefix": "[行政]",
+      "types": []
+    },
+    "注册_材料": {
+      "title": "注册 · 材料",
+      "description": "工商注册、变更材料、资质证书",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「注册-材料」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「注册-材料」频道最近的任务历史记录。",
+      "threadPrefix": "[注册]",
+      "types": []
+    },
+    "合同_管理": {
+      "title": "合同 · 管理",
+      "description": "合同存档、到期提醒、续约管理",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「合同-管理」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「合同-管理」频道最近的任务历史记录。",
+      "threadPrefix": "[合同]",
+      "types": []
+    },
+    "公司_资产": {
+      "title": "公司 · 资产",
+      "description": "固定资产登记、折旧计算、盘点",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「公司-资产」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「公司-资产」频道最近的任务历史记录。",
+      "threadPrefix": "[公司]",
+      "types": []
+    },
+    "法务_知产": {
+      "title": "法务 · 知产",
+      "description": "法律咨询、知识产权、商标专利",
+      "color": "__COLOR__",
+      "footer": "__BRAND__ · Eclipse",
+      "skillName": "auto",
+      "buttonLabels": {
+        "open": "🚀 开始任务",
+        "history": "📖 查看历史",
+        "clean": "🗑️ 清空"
+      },
+      "archivePrompt": "读取本 thread 的全部内容，根据频道「法务-知产」的业务场景，自动匹配合适的 skill 执行任务。完成后归档结果。",
+      "historyPrompt": "列出「法务-知产」频道最近的任务历史记录。",
+      "threadPrefix": "[法务]",
+      "types": []
+    }
+  }
+}

@@ -75,6 +75,17 @@ Eclipse Bot 同时解决这两个问题。
 | **往期** | 查询过去完成的任务 |
 | **清空** | 清理频道非面板消息 |
 
+<div align="center">
+<img src="docs/assets/panel-overview.png" width="500" alt="技能面板">
+<br><em>技能面板：嵌入消息 + 4 个操作按钮（开始/归档/往期/清空）</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/type-selector.png" width="400" alt="类型选择">
+<br><em>用户从下拉菜单选择任务类型——每种类型注入不同的技能上下文</em>
+</div>
+
+
 ### 一频道一技能
 
 ```
@@ -87,6 +98,12 @@ Eclipse Bot 同时解决这两个问题。
   #设计工作台 -> DSGN-001 落地页 (已归档)
   #客户报价   -> QUOT-001 制造业客户 (进行中)
 ```
+
+<div align="center">
+<img src="docs/assets/thread-context-injection.png" width="600" alt="Thread 上下文注入">
+<br><em>新 Thread 创建后：团队成员加入，技能上下文注入，AI 准备就绪</em>
+</div>
+
 
 ### 生命周期
 
@@ -107,6 +124,12 @@ Eclipse Bot 同时解决这两个问题。
 客户报价（8 行业）、客户跟进（6 种异议策略）、展示方案（10 类型）、设计工作台、公众号、内容铸卡
 
 **适合**：设计公司、咨询公司、外包团队
+
+<div align="center">
+<img src="docs/assets/panel-content-card.png" width="500" alt="内容铸卡面板">
+<img src="docs/assets/type-selector-card.png" width="400" alt="铸卡类型选择">
+<br><em>内容铸卡面板和类型选择器——6 种视觉输出格式</em>
+</div>
 
 ### 3. 创意工作室 — 7 面板
 公告、画院、文渊阁、乐坊、影像司、戏台、经筵

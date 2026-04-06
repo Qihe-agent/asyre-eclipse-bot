@@ -77,6 +77,12 @@ This is not a theoretical improvement. We have run this system in production acr
 
 A Skill Panel is a permanent message (embed + buttons) in a Discord channel. Each channel is dedicated to one type of work.
 
+<div align="center">
+<img src="docs/assets/panel-overview.png" width="500" alt="Skill Panel with buttons">
+<br><em>A Skill Panel: embed with description + 4 action buttons (Open, Archive, History, Clean)</em>
+</div>
+
+
 ```
 Channel: #deep-writing
 +------------------------------------------+
@@ -107,6 +113,12 @@ Read the skill docs and prepare for Opinion Piece work.
 
 The AI knows exactly what to do before the user even speaks. No guessing. No hallucinations from mixed context.
 
+<div align="center">
+<img src="docs/assets/type-selector.png" width="400" alt="Type selector dropdown">
+<br><em>User selects task type from dropdown — each type injects different skill context</em>
+</div>
+
+
 **Archive** — AI processes the thread output (summarizes, saves files, publishes). Thread marked complete.
 
 **History** — Query past completed tasks.
@@ -130,6 +142,12 @@ You get:
 
 Every task traceable. Every AI interaction scoped. Archive ensures nothing lost.
 
+<div align="center">
+<img src="docs/assets/thread-context-injection.png" width="600" alt="Thread with injected context">
+<br><em>Fresh thread created: team members added, skill context injected, AI ready to execute</em>
+</div>
+
+
 ### The Lifecycle Model
 
 ```
@@ -148,6 +166,12 @@ Every task traceable. Every AI interaction scoped. Archive ensures nothing lost.
 Without this: threads pile up, no clear status, stale AI context, cluttered workspace.
 
 With this: clear beginning and end, forced final deliverable, clean workspace, full auditability.
+
+<div align="center">
+<img src="docs/assets/archive-result.png" width="600" alt="Archive result">
+<br><em>Archive complete: AI produces structured summary — 9 topics, 8 decisions, 6 action items, 6 deliverables</em>
+</div>
+
 
 ---
 
@@ -178,6 +202,13 @@ With this: clear beginning and end, forced final deliverable, clean workspace, f
 | **Content Cards** | 6 (long-form, infographic, multi-card, visual notes, comics, whiteboard) | Content to visual card conversion |
 
 **Best for**: Design firms, consulting companies, outsourcing teams.
+
+<div align="center">
+<img src="docs/assets/panel-content-card.png" width="500" alt="Content Card panel">
+<img src="docs/assets/type-selector-card.png" width="400" alt="Card type selector">
+<br><em>Content Card panel and its type selector — 6 visual output formats</em>
+</div>
+
 
 ### 3. Creative Studio — 7 panels
 

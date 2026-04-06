@@ -80,6 +80,11 @@ Eclipse Bot 同时解决这两个问题。
 <br><em>技能工坊面板 — 创建、改进、审查 Agent 技能</em>
 </div>
 
+<div align="center">
+<img src="docs/assets/panel-overview.png" width="450" alt="认知记录面板">
+<br><em>认知记录系统面板 — 五层处理流程：整理→金句→建档→点评→存档</em>
+</div>
+
 
 
 
@@ -100,6 +105,11 @@ Eclipse Bot 同时解决这两个问题。
 <div align="center">
 <img src="docs/assets/panel-showcase-with-threads.png" width="600" alt="展示方案面板">
 <br><em>展示方案生成器 — 已创建痛点调研 thread，类型选择器展示 5 个行业方向</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/type-selector.png" width="400" alt="类型选择器特写">
+<br><em>类型选择器特写 — 客户对话、内容探讨、认知升级、自由记录</em>
 </div>
 
 
@@ -123,6 +133,17 @@ Eclipse Bot 同时解决这两个问题。
 <div align="center">
 <img src="docs/assets/panel-cognitive-archive-full.png" width="600" alt="认知归档全景">
 <br><em>认知归档系统全景 — 面板 + 活跃 thread（QIHE-063 "Joy" 216 条消息）+ 类型选择器</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/panel-content-card.png" width="500" alt="内容铸卡面板">
+<img src="docs/assets/type-selector-card.png" width="400" alt="铸卡类型选择">
+<br><em>内容铸卡面板 — 6 种视觉输出格式：长图/信息图/多卡/视觉笔记/漫画/白板</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/archive-result.png" width="600" alt="归档结果">
+<br><em>归档完成 — AI 产出结构化摘要：9 个主题、8 项决策、6 项待办、6 个产出物</em>
 </div>
 
 

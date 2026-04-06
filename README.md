@@ -99,6 +99,11 @@ Channel: #deep-writing
 <br><em>Skill Forge panel. Title: "Skill Workshop — Create, improve, and audit Agent skills." Three workflows: create new skill, view skill list, view history. Buttons: Start, Archive, History, Clean.</em>
 </div>
 
+<div align="center">
+<img src="docs/assets/panel-overview.png" width="450" alt="Cognitive Archive Panel">
+<br><em>Another panel example: Cognitive Archive System — "Record conversations, discuss content, extract insights." Five-layer archive process: organize → extract quotes → profile people → critique → archive.</em>
+</div>
+
 **Open** — User clicks, selects task type. Eclipse Bot:
 1. Creates a thread with unique ID (e.g., `ASYR-042`)
 2. Adds AI bot + team members
@@ -146,6 +151,11 @@ Every task traceable. Every AI interaction scoped. Archive ensures nothing lost.
 <br><em>Showcase Page Generator in action. Panel: "One-click industry showcase materials." Below: thread QIHE-062 created for "Pain Point Research." Type selector: Pain Point Research (depth analysis + AI solutions), Industry Foresight (macro + landscape + AI), E-commerce/Cross-border, Manufacturing/Factory, F&B/Retail.</em>
 </div>
 
+<div align="center">
+<img src="docs/assets/type-selector.png" width="400" alt="Type selector close-up">
+<br><em>Type selector close-up — each option has an emoji, label, and description. Options shown: Client Conversation (customer communication records), Content Discussion (cognitive analysis, co-creation), Cognitive Upgrade (new frameworks, insights), Free Notes (unclassified ideas).</em>
+</div>
+
 
 <div align="center">
 <img src="docs/assets/thread-context-injection.png" width="600" alt="Thread with injected context">
@@ -177,6 +187,11 @@ With this: clear beginning and end, forced final deliverable, clean workspace, f
 <br><em>RuiCha social media data panel — real-time data from 21 platforms (Douyin, Xiaohongshu, Bilibili, TikTok, YouTube, Instagram, Twitter). Types: Video/Post Details, Account Analysis, Trending/Hot Topics, Content Search, Video Transcript. Thread QIHE-060 created for "Account Analysis" with 23 messages.</em>
 </div>
 
+<div align="center">
+<img src="docs/assets/thread-context-injection.png" width="600" alt="Thread with injected context">
+<br><em>Inside a thread after creation — Eclipse Bot posts welcome embed (date, participants, instructions) then injects skill context for the AI: skill name (<code>cognitive-archive</code>), type (⬆️ Cognitive Upgrade), description ("new frameworks, new insights"), and instruction to read skill docs and wait for user input.</em>
+</div>
+
 
 <div align="center">
 <img src="docs/assets/archive-result.png" width="600" alt="Archive result">
@@ -204,6 +219,12 @@ With this: clear beginning and end, forced final deliverable, clean workspace, f
 <div align="center">
 <img src="docs/assets/panel-cognitive-archive-full.png" width="600" alt="Cognitive Archive full view">
 <br><em>Cognitive Archive in production — panel + active threads (QIHE-063 "Joy" with 216 messages) + type selector (Client Conversation, Content Discussion, Cognitive Upgrade, Free Notes). AI confirms completion with output file link.</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/panel-content-card.png" width="500" alt="Content Card panel">
+<img src="docs/assets/type-selector-card.png" width="400" alt="Card type selector">
+<br><em>Content Card panel — "Convert content to PNG visual cards. 6 molds: long-form / infographic / multi-card / visual notes / comics / whiteboard." Type selector: Long Image (single reading card), Infographic (data-driven layout), Multi-Card (auto-split 1080×1440), Visual Notes (hand-drawn sketchnote), Comics (manga style).</em>
 </div>
 
 
@@ -451,6 +472,16 @@ node templates/deploy-template.cjs templates/content-creator.json \
 | **Economy** | Gold (1:1 USD, admin-managed) + Silver (chat/check-in earned), cross-server wallets |
 | **Tickets** | Multi-category support tickets, private threads, team notifications |
 | **Welcome** | Per-guild messages with variable substitution, auto-roles, custom channels |
+
+<div align="center">
+<img src="docs/assets/archive-result.png" width="600" alt="Archive result">
+<br><em>Archive in action — Eclipse Bot sends archive command, AI produces structured output: summary saved to <code>hq/daily-sync/2026-03-15.md</code> with 9 topics, 8 decisions, 6 action items, 6 deliverables. Key decisions listed (e.g., "GOG CLI defaults to Google tools", "AI email marketing direction").</em>
+</div>
+
+<div align="center">
+<img src="docs/assets/thread-standup.png" width="500" alt="Standup discussion thread">
+<br><em>Daily standup thread — Eclipse Bot creates a dated discussion thread, adds team members (@Asher, @吕喲), and provides instructions. Members can chat and @mention the AI bot anytime during the discussion.</em>
+</div>
 
 ---
 

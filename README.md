@@ -1,6 +1,34 @@
-# Eclipse Bot
+<div align="center">
 
-Turn your Discord server into a managed AI workspace — structured context, no hallucinations, human-controlled lifecycle.
+# Asyre Eclipse Bot
+
+> *"AI doesn't degrade because it's stupid. It degrades because you gave it 500 messages of context and expected it to remember message 3."*
+
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Node](https://img.shields.io/badge/Node.js-18%2B-green)
+![Discord.js](https://img.shields.io/badge/discord.js-v14-5865F2)
+![Templates](https://img.shields.io/badge/Templates-6-orange)
+![Panels](https://img.shields.io/badge/Panels-61-red)
+
+<br>
+
+**Your AI agent gave you a perfect answer on message 1. What about message 50?**
+
+**You started a new chat to fix it. Now where did that design discussion go?**
+
+**Your team uses 5 different AI tools. None of them talk to each other.**
+
+<br>
+
+### Config-driven Discord AI workspace.<br>Isolated threads. Injected skill context. Human-controlled lifecycle.
+
+<br>
+
+[**Why This Exists**](#why-this-exists) · [**How It Works**](#how-it-actually-works) · [**Templates**](#the-6-templates) · [**Quick Start**](#quick-start) · [**Configuration**](#configuration-reference)
+
+</div>
+
+<br>
 
 ---
 
@@ -35,15 +63,11 @@ This is not a theoretical improvement. We have run this system in production acr
 
 ### Why Discord?
 
-A reasonable question. Why not build a custom web app? Why not use Slack?
+**1. Teams already live there.** For communities, creative teams, small companies, and especially teams working with AI agents — Discord is already the daily workspace. Zero adoption friction.
 
-Three reasons:
+**2. Threads are the perfect AI task container.** Naturally isolated, auto-archivable, searchable, nested under parent channels. Rich media support. Built-in member management. Exactly what an AI task needs.
 
-**1. Teams already live in Discord.** For communities, creative teams, small companies, and especially teams working with AI agents — Discord is already the daily workspace. Building on Discord means zero adoption friction. Users do not need to learn a new tool or switch between apps.
-
-**2. Threads are the perfect AI task container.** Discord threads are naturally isolated, auto-archivable, searchable, and nested under their parent channel. They support rich media (images, files, embeds). They have built-in member management. This is exactly the container an AI task needs — and Discord provides it natively.
-
-**3. The bot ecosystem is mature.** Discord.js is battle-tested, the API is well-documented, and bots can manage channels, permissions, threads, and messages programmatically. Eclipse Bot can create an entire AI workspace — channels, permissions, panels, and all — with a single deployment command.
+**3. The bot ecosystem is mature.** Discord.js is battle-tested. Bots can manage channels, permissions, threads, and messages programmatically. An entire AI workspace deployed with one command.
 
 ---
 
@@ -51,59 +75,67 @@ Three reasons:
 
 ### The Skill Panel System
 
-A Skill Panel is a permanent message (embed + buttons) posted in a Discord channel. Each channel is dedicated to one type of work. The panel provides four buttons:
+A Skill Panel is a permanent message (embed + buttons) in a Discord channel. Each channel is dedicated to one type of work.
 
-**Open** — The user clicks this and (if the panel has types defined) selects what kind of task they want to start. Eclipse Bot then:
-1. Creates a new thread with a unique ID (e.g., `ASYR-042`)
-2. Adds the AI bot and relevant team members to the thread
-3. Posts a context message with the full skill definition
-4. Posts a welcome message telling the user what to do
+```
+Channel: #deep-writing
++------------------------------------------+
+|  ✍️ Deep Writing System                  |
+|                                          |
+|  Select a content type to start a new    |
+|  writing task. AI joins with full skill  |
+|  context injected.                       |
+|                                          |
+|  [✍️ Open] [📦 Archive] [📜 History] [🗑️ Clean] |
++------------------------------------------+
+```
 
-The AI bot receives a message like:
+**Open** — User clicks, selects task type. Eclipse Bot:
+1. Creates a thread with unique ID (e.g., `ASYR-042`)
+2. Adds AI bot + team members
+3. Posts skill context (what the AI should do, quality criteria, output format)
+4. AI receives a message like:
 
 ```
 Task context:
 - Skill: content-writing
 - Type: Opinion Piece
-- Description: Express a strong viewpoint — persuasion + value guidance + disruption
+- Description: Express a strong viewpoint — persuasion + value guidance
 
 Read the skill docs and prepare for Opinion Piece work.
-Wait for user to post their topic.
 ```
 
-This is why the AI does not hallucinate or get confused. It knows exactly what it is doing before the user even speaks.
+The AI knows exactly what to do before the user even speaks. No guessing. No hallucinations from mixed context.
 
-**Archive** — When the task is complete, the user returns to the main channel and clicks Archive. Eclipse Bot finds active threads and lets the user select which one to archive. It then sends the skill's archive prompt to the AI, which typically includes:
-- Processing the thread's content (summarizing, extracting key outputs)
-- Saving files to the workspace
-- Publishing results if applicable
-- Reporting what was saved and where
+**Archive** — AI processes the thread output (summarizes, saves files, publishes). Thread marked complete.
 
-The thread is then marked as complete (prefixed with a checkmark) and the AI starts no new work in it.
+**History** — Query past completed tasks.
 
-**History** — Sends a query to the AI asking it to list past completed tasks in this channel. Useful for auditing and finding previous work.
-
-**Clean** — Removes all non-panel messages from the channel, keeping the workspace tidy.
+**Clean** — Remove non-panel messages from channel.
 
 ### Why One Channel = One Skill
 
-This is a deliberate architectural decision, not a limitation.
+When each channel serves one skill, the workspace becomes self-documenting:
 
-When you put multiple skills in the same channel, the AI sees threads about different topics side by side. Even though each thread is isolated, the channel's visual context bleeds. Users get confused about which channel to use. New team members do not know where to go.
+```
+Instead of:
+  #general-ai-chat (500 messages, AI confused, nobody knows what's done)
 
-When each channel is dedicated to one skill, the entire channel becomes self-documenting. A user sees `#deep-writing` and knows exactly what happens there. They see threads like `ASYR-001 Article about AI agents` and `ASYR-002 Weekly newsletter` — all clearly scoped to writing.
+You get:
+  #deep-writing     -> ASYR-001 Article about AI agents (archived, done)
+                    -> ASYR-002 Weekly newsletter (in progress)
+  #design-studio    -> DSGN-001 Landing page mockup (archived, done)
+  #client-quotes    -> QUOT-001 Manufacturing client (in progress)
+```
 
-This also means the deploy-template system works cleanly: each panel maps 1:1 to a channel. Deploy a template and you get exactly the right number of channels with exactly the right panels.
+Every task traceable. Every AI interaction scoped. Archive ensures nothing lost.
 
 ### The Lifecycle Model
-
-The open/archive cycle is what separates this from "just using Discord threads":
 
 ```
 [Idle] --> User clicks Open --> [Active Thread]
                                      |
                               User works with AI
-                              (messages, files, images)
                                      |
                               User clicks Archive --> [Processed & Closed]
                                                            |
@@ -113,192 +145,122 @@ The open/archive cycle is what separates this from "just using Discord threads":
                                                       [Done] --> searchable, traceable
 ```
 
-Without this lifecycle:
-- Threads pile up with no clear status (is this done? still in progress? abandoned?)
-- AI context in old threads becomes stale but never gets cleaned up
-- There is no trigger for the AI to process and save its output
-- Workspace becomes cluttered and unusable over weeks
+Without this: threads pile up, no clear status, stale AI context, cluttered workspace.
 
-With the lifecycle:
-- Every task has a clear beginning (Open) and end (Archive)
-- The archive step forces the AI to produce a final deliverable
-- Closed threads are clearly marked and searchable
-- The channel stays clean for new work
-
-This is especially important for teams. When multiple people use the same channel, the lifecycle makes it obvious what is active, what is done, and what needs attention.
+With this: clear beginning and end, forced final deliverable, clean workspace, full auditability.
 
 ---
 
-## The Template System
+## The 6 Templates
 
-### Why Templates Exist
+> Extracted from real production deployments running daily across 4 Discord communities. Not theoretical designs.
 
-Setting up a Discord AI workspace from scratch is tedious. You need to:
-1. Create channels with the right names
-2. Set permissions (private channels need specific overwrites)
-3. Design panel embeds (title, description, color, footer)
-4. Define skill types (what options appear in the dropdown)
-5. Write archive prompts (what the AI does when archiving)
-6. Write history prompts (how the AI queries past work)
-7. Configure button labels
-8. Post the panels to channels
+### 1. Content Creator — 4 panels
 
-For one panel, this takes 10-15 minutes. For a 31-panel business setup, it takes hours.
+| Panel | Types | What It Does |
+|-------|-------|-------------|
+| **Deep Writing** | 7 (commentary, explainer, opinion, tutorial, emotional, investigative, free) | Full 7-phase writing pipeline with quality assessment |
+| **Social Layout** | 5 (article, single-page, illustrated, long-form, branded) | Markdown to 1080x1440 social media cards |
+| **AI Illustration** | 7 (infographic, scene, flowchart, comparison, framework, timeline, mixed) | Article illustration via type x style matrix |
+| **Knowledge Archive** | 4 (client chat, discussion, cognitive upgrade, free note) | Conversation recording, quote extraction, person profiling |
 
-Templates solve this by packaging all of these decisions into a single JSON file. One command reads the template, creates all channels, sets all permissions, generates all panels, and posts them. A 31-panel deployment that would take hours is done in seconds.
+**Best for**: Writers, KOLs, content teams, anyone producing written content regularly.
 
-### The 6 Templates
+### 2. Service Agency — 6 panels
 
-These are not hypothetical designs. Each template is extracted from a real production deployment that has been used daily for months. The skill types, archive prompts, and panel configurations have been refined through actual use.
+| Panel | Types | What It Does |
+|-------|-------|-------------|
+| **Client Quotes** | 8 (construction, F&B, manufacturing, e-commerce, education, travel, healthcare, custom) | Industry-templated professional quotes |
+| **Client Follow-up** | 6 (price anxiety, risk fear, unclear value, decision delay, scope drift, routine) | Diagnostic-based selling (DBS) follow-up strategies |
+| **Showcase Pages** | 10 (pain-point research, foresight, + 8 industry templates) | Landing page and showcase generation |
+| **Design Workspace** | 6 (layout, UI, branding, poster, video, other) | General design workbench |
+| **WeChat Publishing** | 2 (push article, account management) | WeChat Official Account management |
+| **Content Cards** | 6 (long-form, infographic, multi-card, visual notes, comics, whiteboard) | Content to visual card conversion |
 
-#### 1. Content Creator (4 panels)
+**Best for**: Design firms, consulting companies, outsourcing teams.
 
-For writers, KOLs, content teams, and anyone who produces written content regularly.
+### 3. Creative Studio — 7 panels
 
-**Deep Writing** — A full content creation pipeline. The user selects from 7 content types (social commentary, deep explainer, opinion piece, tutorial, emotional piece, investigative, free topic), and the AI receives the complete writing skill definition including intent analysis, parameter derivation, quality assessment criteria, and publishing workflow. This is not "write me an article" — it is a structured 7-phase writing process that consistently produces high-quality output.
+| Panel | Types | What It Does |
+|-------|-------|-------------|
+| **Announcements** | 4 | Structured community announcements |
+| **Art Studio** | 3 | AI image generation, editing, style transfer |
+| **Writing Hall** | 3 | Poetry, prose, fiction |
+| **Music Room** | 2 | Voice synthesis (TTS), audio production |
+| **Video Dept** | 2 | Scriptwriting, post-production guidance |
+| **Theater** | 3 | Playwriting, direction, critique |
+| **Lecture Hall** | 3 | Open lectures, seminars, reading groups |
 
-**Social Media Layout** — Converts markdown articles into formatted social media cards (1080x1440px PNG pages). Supports article layout, single-page, illustrated, long-form preview, and branded templates. The AI handles image generation, page splitting, and visual formatting.
+**Best for**: Art teams, creative communities, interest groups.
 
-**AI Illustration** — Generates article illustrations using a type-by-style matrix. Users choose from infographic, scene, flowchart, comparison, framework, timeline, or smart-mix. The AI analyzes the article content and generates appropriate illustrations.
+### 4. Full Business — 31 panels
 
-**Knowledge Archive** — Records conversations, extracts insights, and builds a knowledge base. Four types: client conversations, content discussions, cognitive upgrades, and free notes. The archive process includes raw preservation, quote extraction, person profiling, commentary, and optionally generating long-form articles from deep discussions.
+All auto-mode (no predefined types — AI infers from channel context).
 
-#### 2. Service Agency (6 panels)
+| Department | Panels | Coverage |
+|-----------|--------|----------|
+| **Strategy** | 3 | Brand & planning, decisions & data, knowledge & training |
+| **Marketing** | 6 | Copywriting, social media, advertising, customer profiling, marketing docs, design |
+| **Sales** | 4 | Client management, channels, quotes & contracts, scheduling |
+| **Operations** | 5 | Procurement, production, sampling, warehouse & logistics, approvals |
+| **Finance** | 6 | Financial docs, invoicing, tax, bookkeeping, cost analysis, credentials |
+| **Admin** | 7 | HR, KPI, admin docs, registration, contracts, assets, legal & IP |
 
-For design firms, consulting companies, outsourcing teams, and any service business that manages client work.
+**Best for**: SMEs wanting to digitize every function. Each department head gets AI-powered channels.
 
-**Client Quotes** — Generates professional quotes based on industry templates. 8 industry presets (construction, F&B, manufacturing, e-commerce, education, travel, healthcare, custom) with pre-configured pricing structures, scope definitions, and deliverable lists. The AI knows the industry context and produces quotes that look like they came from an experienced account manager.
+### 5. Knowledge Hub — 5 panels
 
-**Client Follow-up** — Manages the client follow-up process using diagnostic-based selling (DBS). 6 follow-up types mapped to common client objections: price anxiety, risk fear, unclear value, decision delay, scope drift, and routine check-in. Each type has a specific communication strategy the AI follows.
+| Panel | Types | What It Does |
+|-------|-------|-------------|
+| **KB Ingestion** | 5 (web, YouTube, Twitter, PDF, manual) | Extract, summarize, structure knowledge |
+| **Knowledge Forge** | 5 (article, audio, video, book, free) | Raw knowledge to structured modules |
+| **Thinking Tools** | 8 (roundtable, writing engine, rank-reduction, concept anatomy, investment, plain-language, paper reader, travel research) | Cognitive framework toolkit |
+| **Workspace Tidy** | 2 (full scan, lifecycle cleanup) | File system maintenance |
+| **Console** | 3 (deploy, refresh, audit) | Panel management meta-panel |
 
-**Showcase Pages** — Generates landing pages and showcase materials. 10 types including pain-point research, industry foresight, and 8 industry-specific templates. The AI produces complete showcase page designs with copy, layout suggestions, and visual direction.
+**Best for**: Research teams, training organizations, companies building internal knowledge bases.
 
-**Design Workspace** — A general design workbench supporting layout, UI, branding, posters, video, and other design work. The AI assists with design direction, asset generation, and iteration.
+### 6. Lifestyle Community — 8 panels
 
-**WeChat Publishing** — Manages WeChat Official Account article publishing. Two modes: push article (formatting, scheduling, publishing) and account management.
+| Panel | Types | What It Does |
+|-------|-------|-------------|
+| **Wellness** | 3 | Health plans, dietary therapy, exercise routines |
+| **Herbal Medicine** | 3 | Prescriptions, herb identification, consultation |
+| **Love Letters** | 2 | Love letters, confessions |
+| **Moonlit Pavilion** | 2 | Night conversations, meditation |
+| **Wishing Well** | 3 | Wishes, blessings, gratitude |
+| **Music Garden** | 2 | Recommendations, shared listening |
+| **Chess Room** | 1 | Strategy matches |
+| **Private Space** | 2 | Diary, private entries |
 
-**Content Cards** — Converts content into visual card formats. 6 types: long-form images, infographics, multi-card sets, visual notes, comics, and whiteboard diagrams.
+**Best for**: Interest groups, lifestyle communities, wellness spaces.
 
-#### 3. Creative Studio (7 panels)
-
-For art teams, creative communities, and interest groups focused on creative production.
-
-**Announcements** — A structured announcement system with 4 types: important decisions, general announcements, commemorative dates, and open discussions. Keeps community communication organized.
-
-**Art Studio** — AI-powered visual art creation. 3 types: AI image generation, photo editing/retouching, and style transfer. The AI handles prompt engineering, iteration, and output refinement.
-
-**Writing Hall** — Literary creation workspace. 3 types: poetry, prose/essays, and fiction. The AI provides writing assistance, editing, and critique tailored to the literary form.
-
-**Music Room** — Audio production workspace. 2 types: voice synthesis (TTS) and audio production. The AI assists with script preparation, voice selection, and audio post-processing.
-
-**Video Department** — Video production support. 2 types: scriptwriting and post-production editing guidance. The AI helps with story structure, shot planning, and editing notes.
-
-**Theater** — Performance and drama workspace. 3 types: scriptwriting, performance direction, and critical review. Designed for theater groups and performance communities.
-
-**Lecture Hall** — Educational content creation. 3 types: open lectures, seminars/workshops, and reading groups. The AI helps structure educational content, create presentation materials, and facilitate discussion.
-
-#### 4. Full Business (31 panels)
-
-For small and medium enterprises that want to digitize their entire operation. This is the most comprehensive template, covering 6 departments with 31 panels.
-
-All panels use **auto mode** — no predefined types. Users describe what they need in natural language, and the AI infers the appropriate action from the channel context. This works because each channel is narrowly scoped (e.g., "Invoice Management" — the AI knows any request in this channel is about invoices).
-
-**Strategy Department** (3 panels): Brand & Planning, Decision & Data Analysis, Knowledge & Training
-
-**Marketing Department** (6 panels): Copywriting, Social Media (WeChat/Xiaohongshu), Advertising, Customer Profiling, Marketing Documents, Design & Visual
-
-**Sales Department** (4 panels): Client & Enterprise Management, Channel & Sales, Quotes & Contracts, Schedule & Meetings
-
-**Operations Department** (5 panels): Procurement, Production Management, Sampling & Order Tracking, Warehouse & Logistics, Approval & Workflows
-
-**Finance Department** (6 panels): Financial Documents, Invoice Management, Tax & Social Insurance, Bookkeeping, Cost & Profit Analysis, Credentials & Keys
-
-**Admin Department** (7 panels): HR & Personnel Files, Employee KPI, Administrative Documents, Registration & Materials, Contract Management, Company Assets, Legal & IP
-
-This template is designed for companies where the founder or operations manager wants to give their team AI assistance across every function. Each department head gets channels relevant to their work, and the AI adapts to each domain.
-
-#### 5. Knowledge Hub (5 panels)
-
-For research teams, training organizations, and companies building internal knowledge bases.
-
-**Knowledge Ingestion** — Imports knowledge from 5 source types: web pages, YouTube videos, Twitter threads, PDFs, and manual input. The AI extracts, summarizes, and structures the content for the knowledge base.
-
-**Knowledge Forge** — Transforms raw knowledge into structured modules. 5 input types: articles, audio transcripts, video transcripts, books, and free-form. The output is modular, reusable knowledge units.
-
-**Thinking Tools** — A toolkit of 8 cognitive frameworks: roundtable discussion (multi-perspective analysis), writing engine, rank-reduction engine (simplification), concept anatomy, investment analysis, plain-language engine, paper reader, and travel research. Each framework guides the AI through a specific thinking methodology.
-
-**Workspace Tidy** — File system maintenance. 2 modes: full scan (audit everything) and lifecycle cleanup (archive old files, organize recent ones).
-
-**Console** — Panel management interface. 3 types: deploy panels, refresh panels, and panel audit. This is the meta-panel for managing the panel system itself.
-
-#### 6. Lifestyle Community (8 panels)
-
-For interest groups, lifestyle communities, and social spaces.
-
-**Wellness** — Health and wellness guidance. 3 types: wellness plans, dietary therapy, and exercise/practice routines.
-
-**Herbal Medicine** — Traditional medicine workspace. 3 types: prescriptions, herb identification, and consultation.
-
-**Love Letters** — Romantic writing assistance. 2 types: love letters and confessions.
-
-**Moonlit Pavilion** — Reflective space. 2 types: night conversations and meditation guides.
-
-**Wishing Well** — A community wish space. 3 types: wishes, blessings, and gratitude.
-
-**Music Garden** — Music appreciation. 2 types: recommendations and shared listening sessions.
-
-**Chess Room** — Strategy games. 1 type: matches.
-
-**Private Space** — Personal journaling. 2 types: diary and private entries.
-
-### Mixing and Customizing Templates
-
-Templates are not mutually exclusive. You can deploy multiple templates to the same server:
+### Mix & Customize
 
 ```bash
-# Start with content creation
+# Deploy content creation first
 node templates/deploy-template.cjs templates/content-creator.json \
-  --guild 123 --bot 456 --brand "My Studio"
+  --guild 123 --bot 456 --brand "Studio"
 
 # Add knowledge management later
 node templates/deploy-template.cjs templates/knowledge-hub.json \
-  --guild 123 --bot 456 --brand "My Studio"
-```
+  --guild 123 --bot 456 --brand "Studio"
 
-You can also exclude panels you do not need:
-
-```bash
-# Deploy service agency but skip WeChat and cards
+# Exclude panels you don't need
 node templates/deploy-template.cjs templates/service-agency.json \
   --guild 123 --bot 456 --brand "Agency" \
   --exclude wechat_pub,visual_card
 ```
 
-And you can create your own templates by copying and modifying the JSON files. The schema is straightforward — each panel is a self-contained configuration block.
-
 ---
 
 ## How Eclipse Bot Connects to Your AI
 
-This is an important architectural point: **Eclipse Bot does not contain AI logic.** It is purely the UI and workflow management layer. It handles:
+Eclipse Bot is the **UI layer**. It does not contain AI logic. It:
 
-- Creating and managing Discord channels and threads
-- Posting panel embeds with interactive buttons
-- Routing user interactions to the right handler
-- Injecting skill context into new threads
-- Managing the open/archive lifecycle
-
-The actual AI work is done by a separate bot — your AI bot. When Eclipse Bot creates a thread, it @mentions your AI bot and posts the skill context. Your AI bot reads the context and starts working.
-
-This separation is intentional:
-
-**1. AI-agnostic.** Your AI bot can be anything — an OpenAI assistant, a Claude-based agent, a custom bot built with LangChain, AutoGPT, or any other framework. Eclipse Bot does not care what powers the AI. It just needs something that can read Discord messages and respond.
-
-**2. Independent scaling.** You can upgrade, restart, or replace your AI bot without touching Eclipse Bot. The panel system keeps running regardless of what happens to the AI.
-
-**3. Multiple AI bots.** You can even have different AI bots for different channels. A specialized writing AI for the content channels, a data analysis AI for the business channels, a creative AI for the art channels.
-
-The typical setup looks like:
+1. Creates structured threads with skill context
+2. @mentions your AI bot in the thread
+3. Your AI bot reads the context and executes
 
 ```
 Eclipse Bot (this project)     Your AI Bot (separate project)
@@ -311,147 +273,91 @@ Eclipse Bot (this project)     Your AI Bot (separate project)
          +--------- Discord -----------+
 ```
 
+Your AI bot can be anything: OpenAI assistant, Claude agent, LangChain bot, custom framework. Eclipse Bot does not care. It just needs something that reads Discord messages and responds.
+
+This separation means:
+- **AI-agnostic** — swap AI backends without touching Eclipse Bot
+- **Independent scaling** — upgrade AI without redeploying the panel system
+- **Multiple AI bots** — different AI for different channels (writing AI, data AI, creative AI)
+
 ---
 
-## Setup Guide
+## Quick Start
 
-### Prerequisites
+### 1. Create a Discord Bot
 
-- Node.js 18+ and npm
-- A Discord bot token ([create one here](https://discord.com/developers/applications))
-- A server (any Linux VPS, or even your local machine for testing)
+1. [Discord Developer Portal](https://discord.com/developers/applications) -> New Application -> Bot
+2. Copy token. Enable intents: **Message Content**, **Server Members**, **Presence**
+3. Invite with `bot` + `applications.commands` scopes + `Administrator` permission
 
-### Step 1: Create a Discord Bot
-
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Click "New Application" and give it a name
-3. Go to "Bot" tab, click "Add Bot"
-4. Copy the bot token (you will need it later)
-5. Enable these Privileged Gateway Intents:
-   - **Message Content Intent** — Required for reading messages
-   - **Server Members Intent** — Required for welcome messages and member tracking
-   - **Presence Intent** — Required for status updates
-6. Go to "OAuth2" -> "URL Generator"
-   - Select scopes: `bot`, `applications.commands`
-   - Select permissions: `Administrator` (or manually select: Manage Channels, Manage Messages, Send Messages, Create Public Threads, Send Messages in Threads, Embed Links, Attach Files, Read Message History, Add Reactions, Use Slash Commands)
-   - Copy the generated URL and open it in your browser to invite the bot to your server
-
-### Step 2: Clone and Install
+### 2. Clone & Install
 
 ```bash
-git clone https://github.com/yzha0302/eclipse-bot.git
-cd eclipse-bot
+git clone https://github.com/yzha0302/asyre-asyre-eclipse-bot.git
+cd asyre-eclipse-bot
 npm install
 ```
 
-### Step 3: Configure Environment
+### 3. Configure
 
 ```bash
 cp .env.example .env
+cp src/bot-config.example.json src/bot-config.json
 ```
 
 Edit `.env`:
 ```env
-CLIENT_TOKEN="paste-your-bot-token-here"
-CLIENT_ID="paste-your-bot-client-id-here"
+CLIENT_TOKEN="your-bot-token"
+CLIENT_ID="your-bot-client-id"
 DATABASE_URL="file:./dev.db"
-```
-
-The `CLIENT_ID` is different from the token. You can find it on the "General Information" page of your Discord application. It is also called "Application ID."
-
-### Step 4: Configure Bot Settings
-
-```bash
-cp src/bot-config.example.json src/bot-config.json
 ```
 
 Edit `src/bot-config.json`:
 ```json
 {
   "bot": {
-    "id": "paste-your-bot-client-id-here",
-    "ownerId": "your-personal-discord-user-id",
-    "developers": ["your-personal-discord-user-id"]
+    "id": "your-bot-client-id",
+    "ownerId": "your-discord-user-id",
+    "developers": ["your-discord-user-id"]
   },
-  "defaults": {
-    "brand": "My Bot",
-    "color": 15105570,
-    "footer": "My Bot"
-  },
+  "defaults": { "brand": "My Bot", "color": 15105570 },
   "guilds": {
-    "paste-your-guild-id-here": {
+    "your-guild-id": {
       "brand": "My Community",
-      "footer": "My Community",
-      "color": 10181046,
-      "welcome": {
-        "enabled": true,
-        "channelId": "paste-welcome-channel-id",
-        "autoRoleId": "",
-        "title": "Welcome!",
-        "description": "Welcome to **{guildName}**, {displayName}! You are member #{memberCount}.",
-        "thumbnailFromUser": true,
-        "color": 5793266
-      },
-      "levelup": {
-        "enabled": true,
-        "banner": "levelup_banner.png",
-        "color": 16766720,
-        "noLeveling": false
-      },
-      "team": {
-        "mention": ["your-user-id"],
-        "silent": []
-      },
-      "ticket": {
-        "enabled": false,
-        "title": "Support Center",
-        "notifyUsers": []
-      }
+      "welcome": { "enabled": true, "channelId": "welcome-channel-id" },
+      "team": { "mention": ["your-user-id"] }
     }
   }
 }
 ```
 
-How to find your Discord IDs: Enable Developer Mode in Discord (Settings -> Advanced -> Developer Mode), then right-click any user, channel, or server and click "Copy ID."
+> **Finding Discord IDs**: Settings -> Advanced -> Developer Mode -> right-click anything -> Copy ID
 
-### Step 5: Build and Run
+### 4. Build & Run
 
 ```bash
-npm run setup    # Initialize the SQLite database
-npm run build    # Compile TypeScript to JavaScript
+npm run setup    # Initialize database
+npm run build    # Compile TypeScript
 npm start        # Start the bot
 ```
 
-You should see: `Logged in as: YourBotName` and `Serving 1 guild(s)`.
-
-For production, use PM2:
+Production (PM2):
 ```bash
-npm install -g pm2
 pm2 start dist/index.js --name eclipse-bot
-pm2 save
-pm2 startup    # Auto-start on server reboot
+pm2 save && pm2 startup
 ```
 
-### Step 6: Deploy Skill Panels
-
-Now the bot is running, but it has no panels yet. Deploy a template:
+### 5. Deploy Panels
 
 ```bash
-# Always preview first
+# Preview
 node templates/deploy-template.cjs templates/content-creator.json \
-  --guild YOUR_GUILD_ID \
-  --bot YOUR_BOT_CLIENT_ID \
-  --brand "My Studio" \
-  --dry-run
+  --guild YOUR_GUILD_ID --bot YOUR_BOT_ID --brand "My Studio" --dry-run
 
-# If the preview looks right, deploy
+# Deploy
 node templates/deploy-template.cjs templates/content-creator.json \
-  --guild YOUR_GUILD_ID \
-  --bot YOUR_BOT_CLIENT_ID \
-  --brand "My Studio"
+  --guild YOUR_GUILD_ID --bot YOUR_BOT_ID --brand "My Studio"
 ```
-
-Check your Discord server — you should see new channels with panels posted in them.
 
 ---
 
@@ -461,163 +367,82 @@ Check your Discord server — you should see new channels with panels posted in 
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `bot.id` | string | Bot's Discord Client ID |
-| `bot.ownerId` | string | Your Discord user ID (for owner-only commands) |
-| `bot.developers` | string[] | User IDs that can use developer commands |
-| `defaults.brand` | string | Default brand name used in embeds |
-| `defaults.color` | number | Default embed color (decimal integer) |
-| `defaults.footer` | string | Default embed footer text |
+| `bot.id` | string | Bot Discord Client ID |
+| `bot.ownerId` | string | Your Discord user ID (owner commands) |
+| `bot.developers` | string[] | Developer command access |
+| `defaults.brand` | string | Default brand name in embeds |
+| `defaults.color` | number | Default embed color (decimal) |
 
-### Per-Guild Configuration (guilds.{id})
+### Per-Guild (guilds.{id})
 
 | Key | Type | Description |
 |-----|------|-------------|
-| `brand` | string | Guild-specific brand name |
-| `footer` | string | Guild-specific footer text |
-| `color` | number | Guild-specific embed color |
+| `brand` | string | Guild brand name |
 | `welcome.enabled` | boolean | Enable welcome messages |
-| `welcome.channelId` | string | Channel to post welcome messages |
-| `welcome.autoRoleId` | string | Role to auto-assign to new members |
-| `welcome.title` | string | Welcome embed title |
-| `welcome.description` | string | Welcome embed description (supports {displayName}, {username}, {userId}, {memberCount}, {guildName}) |
-| `welcome.color` | number | Welcome embed color |
-| `levelup.enabled` | boolean | Enable leveling system |
-| `levelup.banner` | string | Filename of level-up banner image (in assets/) |
-| `levelup.color` | number | Level-up embed color |
-| `levelup.noLeveling` | boolean | Completely disable XP for this guild |
-| `team.mention` | string[] | User IDs to @mention in new skill threads |
-| `team.silent` | string[] | User IDs to add to threads without @mention |
-| `team.familyRoleId` | string | Role ID whose members get silently added to threads |
+| `welcome.channelId` | string | Welcome channel |
+| `welcome.autoRoleId` | string | Auto-assign role on join |
+| `welcome.description` | string | Welcome text ({displayName}, {memberCount}, {guildName}) |
+| `levelup.enabled` | boolean | Enable leveling |
+| `levelup.noLeveling` | boolean | Disable XP entirely |
+| `levelup.banner` | string | Level-up banner filename (in assets/) |
+| `team.mention` | string[] | @mention in skill threads |
+| `team.silent` | string[] | Add to threads silently |
 | `ticket.enabled` | boolean | Enable ticket system |
-| `ticket.title` | string | Ticket panel title |
-| `ticket.notifyUsers` | string[] | User IDs to notify on new tickets |
+| `ticket.notifyUsers` | string[] | Notify on new tickets |
 
 ### .env
 
 | Variable | Description |
 |----------|-------------|
-| `CLIENT_TOKEN` | Discord bot token (from Developer Portal) |
-| `CLIENT_ID` | Discord bot client/application ID |
-| `DATABASE_URL` | Database connection string (default: `file:./dev.db` for SQLite) |
+| `CLIENT_TOKEN` | Discord bot token |
+| `CLIENT_ID` | Discord bot client ID |
+| `DATABASE_URL` | Database connection (default: `file:./dev.db`) |
 
 ---
 
 ## Built-in Community Features
 
-Eclipse Bot is not just an AI workflow manager. It includes a full community toolkit:
-
-### Leveling System
-
-Based on the Mee6 XP formula: `XP = 5x^2 + 50x + 100` where x is the current level. Users earn 15-25 XP per message (with anti-spam protection). Features include:
-
-- Rank cards with customizable backgrounds
-- Role rewards at specific levels (configurable per guild)
-- Leaderboard command
-- XP rate multiplier per guild
-- No-XP channels and roles
-- Top-ranked member gets a special role
-
-### Economy System
-
-A cross-server currency system with two tiers:
-
-- **Gold** — Premium currency (1:1 USD value), managed by admins
-- **Silver** — Earned through chatting (0.5 per message) and daily check-in, plus level-up bonuses
-
-Commands: `/wallet`, `/daily`, `/transfer`, `/transactions`
-
-### Ticket System
-
-Multi-category support tickets with subcategories:
-
-- Users click a button to open a ticket
-- Select category and subcategory
-- A private thread is created with the support team
-- Configurable notification list per guild
-
-### Welcome System
-
-Fully configurable per-guild welcome messages:
-
-- Custom embed with variable substitution ({displayName}, {memberCount}, etc.)
-- Auto-role assignment on join
-- Custom welcome channel per guild
-- User avatar as thumbnail
+| Feature | Details |
+|---------|---------|
+| **Leveling** | Mee6-compatible XP formula, rank cards, role rewards, leaderboards, configurable XP rate |
+| **Economy** | Gold (1:1 USD, admin-managed) + Silver (chat/check-in earned), cross-server wallets |
+| **Tickets** | Multi-category support tickets, private threads, team notifications |
+| **Welcome** | Per-guild messages with variable substitution, auto-roles, custom channels |
 
 ---
 
 ## Project Structure
 
 ```
-eclipse-bot/
+asyre-eclipse-bot/
 ├── src/
-│   ├── index.ts                    # Entry point
-│   ├── config.ts                   # Config loader (reads bot-config.json)
-│   ├── bot-config.json             # Your configuration (gitignored)
-│   ├── bot-config.example.json     # Configuration template
-│   ├── skill-panels.json           # Active panel configs (managed by deploy script)
-│   ├── class/
-│   │   ├── Builders.ts             # Command and event builder classes
-│   │   ├── ExtendedClient.ts       # Discord client with Prisma and command collections
-│   │   └── canvas/                 # Rank card image generation
+│   ├── bot-config.json           # Your config (gitignored)
+│   ├── skill-panels.json         # Active panels (auto-managed)
 │   ├── handlers/
-│   │   ├── skillPanelHandler.ts    # Core: panel button routing and thread creation
-│   │   ├── ticketSystem.ts         # Support ticket management
-│   │   └── ticketCounter.ts        # Auto-incrementing ticket IDs
-│   ├── events/
-│   │   ├── Client/ready.ts         # Bot startup and rank updates
-│   │   └── Guild/
-│   │       ├── interactionCreate.ts  # All interaction routing
-│   │       ├── messageCreate.ts      # Leveling, XP, silver rewards
-│   │       └── guildMemberAdd.ts     # Welcome messages
-│   ├── commands/
-│   │   ├── Economy/                # wallet, daily, transfer, transactions, admin
-│   │   ├── Levels/                 # rank, leaderboard, info, no-xp
-│   │   ├── Owner/                  # configuration, admin-panel, give/remove xp
-│   │   ├── Ticket/                 # ticket panel, ticket management
-│   │   └── Utility/               # ping, help
-│   ├── utils/
-│   │   ├── botConfig.ts            # Configuration reader with defaults
-│   │   ├── threadCounter.ts        # Thread ID generation (PREFIX-001, PREFIX-002)
-│   │   └── sendComponents.ts       # Discord component helpers
-│   └── util/
-│       ├── functions.ts            # XP calculation, formatting
-│       └── classes.ts              # Rank card generation
-├── templates/
-│   ├── content-creator.json        # 4 panels for content teams
-│   ├── service-agency.json         # 6 panels for service companies
-│   ├── creative-studio.json        # 7 panels for creative groups
-│   ├── full-business.json          # 31 panels for full company digitization
-│   ├── knowledge-hub.json          # 5 panels for research/training teams
-│   ├── lifestyle-community.json    # 8 panels for interest communities
-│   ├── deploy-template.cjs         # One-command template deployment script
-│   └── README.md                   # Template system documentation
-├── scripts/
-│   └── send-panel.cjs              # Panel embed posting utility
-├── prisma/
-│   └── schema.prisma               # Database schema (User, Guild, Wallet, etc.)
-├── data/
-│   └── thread-counters.json        # Runtime thread ID counters
-├── assets/                         # Banner images for rank cards and level-ups
-├── .env.example                    # Environment variable template
-├── .gitignore
-├── package.json
-├── tsconfig.json
-└── LICENSE                         # MIT
+│   │   ├── skillPanelHandler.ts  # Core: button -> thread -> AI context injection
+│   │   └── ticketSystem.ts       # Support tickets
+│   ├── events/                   # Discord event handlers
+│   ├── commands/                 # Slash commands (5 categories)
+│   └── utils/botConfig.ts        # Config loader with per-guild defaults
+├── templates/                    # 6 use case templates (61 panels) + deploy script
+├── scripts/send-panel.cjs        # Panel embed sender
+└── prisma/schema.prisma          # SQLite database schema
 ```
 
 ---
 
 ## Origin
 
-Eclipse Bot is not a weekend project or a proof of concept. It is extracted from a production system that has been running daily across 4 Discord communities with 80+ active skill panels.
+Eclipse Bot is extracted from a production system running daily across 4 Discord communities with 80+ active skill panels. The 6 templates contain real production configurations refined through thousands of AI task executions. The open/archive workflow has been the primary AI interaction model for these communities for months.
 
-The skill panel architecture, the template configurations, and the open/archive lifecycle have been refined through thousands of real AI task executions. The 6 templates contain actual production configurations — the types, prompts, and workflows have been iterated based on real user feedback and real AI output quality.
-
-The decision to open-source came from seeing how many teams struggle with the same AI context management problem. The solution is not more powerful AI — it is better structure around how humans interact with AI. Eclipse Bot provides that structure.
+The decision to open-source came from seeing how many teams struggle with AI context management. The solution is not more powerful AI — it is better structure around how humans interact with AI.
 
 ---
 
-## License
+<div align="center">
 
-MIT — use it however you want.
+**[Quick Start](#quick-start)** · **[Templates](#the-6-templates)** · **[Configuration](#configuration-reference)**
+
+MIT License
+
+</div>

@@ -1,5 +1,5 @@
 {
-  "name": "eclipse-bot",
+  "name": "asyre-eclipse-bot",
   "version": "1.0.0",
   "description": "Config-driven Discord AI workspace. Deploy skill panels with templates.",
   "main": "dist/index.js",
